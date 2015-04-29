@@ -3,7 +3,6 @@ package com.automated.taxinow.driver;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.simonvt.menudrawer.MenuDrawer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -49,7 +48,6 @@ import com.automated.taxinow.driver.utills.AppLog;
 import com.automated.taxinow.driver.utills.PreferenceHelper;
 import com.automated.taxinow.driver.widget.MyFontTextView;
 import com.automated.taxinow.driver.widget.MyFontTextViewDrawer;
-import com.google.android.gms.internal.dr;
 
 /**
  * @author Kishan H Dhamat
@@ -98,6 +96,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		arrayListApplicationPages = new ArrayList<ApplicationPages>();
 		parseContent = new ParseContent(this);
 		mTitle = mDrawerTitle = getTitle();
+
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerList = (ListView) findViewById(R.id.left_drawer);
 
