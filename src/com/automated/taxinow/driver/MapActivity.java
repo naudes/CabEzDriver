@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.automated.taxinow.driver.utills.AppLog;
 import com.automated.taxinow.driver.utills.PreferenceHelper;
 import com.automated.taxinow.driver.widget.MyFontTextView;
 import com.automated.taxinow.driver.widget.MyFontTextViewDrawer;
+import com.google.android.gms.internal.dr;
 
 /**
  * @author Kishan H Dhamat
@@ -55,7 +57,7 @@ import com.automated.taxinow.driver.widget.MyFontTextViewDrawer;
  */
 public class MapActivity extends ActionBarBaseActivitiy implements
 		OnItemClickListener, AsyncTaskCompleteListener {
-	// private DrawerLayout drawerLayout;
+	private DrawerLayout drawerLayout;
 	private DrawerAdapter adapter;
 	private ListView drawerList;
 	// private ActionBarDrawerToggle mDrawerToggle;
@@ -70,7 +72,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			isNetDialogShowing = false, isGpsDialogShowing = false;
 	private AlertDialog internetDialog, gpsAlertDialog;
 	private LocationManager manager;
-	private MenuDrawer mMenuDrawer;
+	// private MenuDrawer mMenuDrawer;
 	private DBHelper dbHelper;
 	private AQuery aQuery;
 	private ImageOptions imageOptions;
@@ -80,28 +82,33 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	private boolean isLogoutCheck = true, isApprovedCheck = true;
 	private BroadcastReceiver mReceiver;
 	private Dialog mDialog;
+	private View headerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// Mint.initAndStartSession(MapActivity.this, "fdd1b971");
-		// setContentView(R.layout.activity_map);
+		setContentView(R.layout.activity_map);
 		preferenceHelper = new PreferenceHelper(this);
-		mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
-		mMenuDrawer.setContentView(R.layout.activity_map);
-		mMenuDrawer.setMenuView(R.layout.menu_drawer);
-		mMenuDrawer.setDropShadowEnabled(false);
+		// mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
+		// mMenuDrawer.setContentView(R.layout.activity_map);
+		// mMenuDrawer.setMenuView(R.layout.menu_drawer);
+		// mMenuDrawer.setDropShadowEnabled(false);
 		arrayListApplicationPages = new ArrayList<ApplicationPages>();
 		parseContent = new ParseContent(this);
 		mTitle = mDrawerTitle = getTitle();
-		// drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerList = (ListView) findViewById(R.id.left_drawer);
-		ivMenuProfile = (ImageView) findViewById(R.id.ivMenuProfile);
-		tvMenuName = (MyFontTextViewDrawer) findViewById(R.id.tvMenuName);
+
 		drawerList.setOnItemClickListener(this);
 		adapter = new DrawerAdapter(this, arrayListApplicationPages);
+		headerView = getLayoutInflater().inflate(R.layout.menu_drawer, null);
+		drawerList.addHeaderView(headerView);
 		drawerList.setAdapter(adapter);
+		ivMenuProfile = (ImageView) headerView.findViewById(R.id.ivMenuProfile);
+		tvMenuName = (MyFontTextViewDrawer) headerView
+				.findViewById(R.id.tvMenuName);
 
 		// drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 		// GravityCompat.START);
@@ -215,15 +222,15 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		applicationPages.setIcon("");
 		arrayListApplicationPages.add(applicationPages);
 
-		applicationPages = new ApplicationPages();
-		applicationPages.setId(-4);
-		applicationPages.setTitle(getResources().getString(R.string.text_help));
-		applicationPages.setData("");
-		applicationPages.setIcon("");
-		arrayListApplicationPages.add(applicationPages);
+		// applicationPages = new ApplicationPages();
+		// applicationPages.setId(-4);
+		// applicationPages.setTitle(getResources().getString(R.string.text_help));
+		// applicationPages.setData("");
+		// applicationPages.setIcon("");
+		// arrayListApplicationPages.add(applicationPages);
 
 		applicationPages = new ApplicationPages();
-		applicationPages.setId(-6);
+		applicationPages.setId(-4);
 		applicationPages
 				.setTitle(getResources().getString(R.string.text_share));
 		applicationPages.setData("");
@@ -237,6 +244,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		applicationPages.setTitle(getString(R.string.text_logout));
 		arrayListApplicationPages.add(applicationPages);
 		adapter.notifyDataSetChanged();
+		isDataRecieved = true;
 	}
 
 	public BroadcastReceiver GpsChangeReceiver = new BroadcastReceiver() {
@@ -406,6 +414,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			ShowGpsDialog();
 		} else {
@@ -426,8 +435,8 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 
 			}
 		}
-		super.onResume();
-		registerIsApproved();
+
+		// registerIsApproved();
 	};
 
 	@Override
@@ -440,7 +449,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			unregisterReceiver(GpsChangeReceiver);
 
 		}
-		unregisterIsApproved();
+		// unregisterIsApproved();
 
 	}
 
@@ -448,15 +457,19 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long arg3) {
 		// AndyUtils.showToast("Postion :" + arg2, this);
-		// drawerLayout.closeDrawer(drawerList);
-		mMenuDrawer.closeMenu();
 		if (position == 0) {
+			return;
+		}
+		drawerLayout.closeDrawer(drawerList);
+		// mMenuDrawer.closeMenu();
+		if (position == 1) {
 			startActivity(new Intent(this, ProfileActivity.class));
-		} else if (position == 1) {
-			startActivity(new Intent(this, HistoryActivity.class));
 		} else if (position == 2) {
+			startActivity(new Intent(this, HistoryActivity.class));
+		} else if (position == 3) {
 			startActivity(new Intent(this, SettingActivity.class));
-		} else if (position == (arrayListApplicationPages.size() - 1)) {
+
+		} else if (position == (arrayListApplicationPages.size())) {
 			if (isLogoutCheck) {
 				openLogoutDialog();
 				isLogoutCheck = false;
@@ -484,8 +497,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			// }
 			// }).setIcon(android.R.drawable.ic_dialog_alert)
 			// .show();
-		} else if (arrayListApplicationPages.get(position).getTitle()
-				.equals(getString(R.string.text_share))) {
+		} else if (position == 4) {
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "I am using "
@@ -501,7 +513,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			startActivity(Intent.createChooser(sendIntent,
 					getString(R.string.text_share_app)));
 		} else {
-			startActivity(new Intent(this, HelpActivity.class));
+			// startActivity(new Intent(this, HelpActivity.class));
 		}
 	}
 
@@ -561,11 +573,13 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 
 		switch (v.getId()) {
 		case R.id.btnActionMenu:
-			mMenuDrawer.toggleMenu();
+			drawerLayout.openDrawer(drawerList);
+			// mMenuDrawer.toggleMenu();
 			break;
 
 		case R.id.tvTitle:
-			mMenuDrawer.toggleMenu();
+			drawerLayout.openDrawer(drawerList);
+			// mMenuDrawer.toggleMenu();
 
 		default:
 			break;
@@ -593,9 +607,9 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			return;
 		}
 
-		// AndyUtils.showCustomProgressDialog(this, "",
-		// getResources().getString(R.string.progress_dialog_request),
-		// false);
+		AndyUtils.showCustomProgressDialog(this, "",
+				getResources().getString(R.string.progress_dialog_loading),
+				false);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(AndyConstants.URL,
 				AndyConstants.ServiceType.REQUEST_IN_PROGRESS
@@ -694,6 +708,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 
 		switch (serviceCode) {
 		case AndyConstants.ServiceCode.REQUEST_IN_PROGRESS:
+			AndyUtils.removeCustomProgressDialog();
 			AppLog.Log(TAG, "requestInProgress Response :" + response);
 			if (!parseContent.parseIsApproved(response)) {
 				if (isApprovedCheck) {
@@ -758,6 +773,13 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			}
 			getMenuItems();
 			switch (requestDetail.getJobStatus()) {
+
+			case AndyConstants.NO_REQUEST:
+				preferenceHelper.clearRequestData();
+				Intent i = new Intent(this, MapActivity.class);
+				startActivity(i);
+				break;
+
 			case AndyConstants.IS_WALKER_STARTED:
 				bundle.putInt(AndyConstants.JOB_STATUS,
 						AndyConstants.IS_WALKER_STARTED);

@@ -209,7 +209,7 @@ public class LocationUpdateService extends IntentService implements
 				}
 				if (!jsonObject.getBoolean("success"))
 					if (jsonObject.getInt("is_cancelled") == 1) {
-						// preferenceHelper.clearRequestData();
+						preferenceHelper.clearRequestData();
 						Intent i = new Intent(LocationUpdateService.this,
 								MapActivity.class);
 						i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

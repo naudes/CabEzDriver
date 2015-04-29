@@ -333,11 +333,12 @@ public class ClientRequestFragment extends BaseMapFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		mMapView.onResume();
 		if (preferenceHelper.getRequestId() == AndyConstants.NO_REQUEST) {
 			startCheckingUpcomingRequests();
 		}
 		mapActivity.setActionBarTitle(getString(R.string.app_name));
-		mMapView.onResume();
+
 	}
 
 	@Override

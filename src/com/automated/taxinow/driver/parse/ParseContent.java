@@ -43,6 +43,7 @@ public class ParseContent {
 	private final String IS_WALK_STARTED = "is_started";
 	private final String IS_DOG_RATED = "is_dog_rated";
 	private final String IS_WALK_COMPLETED = "is_completed";
+	private final String IS_CANCELLED = "is_cancelled";
 	private final String KEY_ERROR_CODE = "error_code";
 
 	private final String BASE_PRICE = "base_price";
@@ -283,8 +284,9 @@ public class ParseContent {
 				requestDetail.setJobStatus(AndyConstants.IS_ASSIGNED);
 				JSONObject object = jsonObject
 						.getJSONObject(AndyConstants.Params.REQUEST);
-
-				if (object.getInt(IS_WALKER_STARTED) == 0) {
+				if (object.getInt(IS_CANCELLED) == 1) {
+					requestDetail.setJobStatus(AndyConstants.NO_REQUEST);
+				} else if (object.getInt(IS_WALKER_STARTED) == 0) {
 					requestDetail.setJobStatus(AndyConstants.IS_WALKER_STARTED);
 					// status = AndyConstants.IS_WALKER_STARTED;
 				} else if (object.getInt(IS_WALKER_ARRIVED) == 0) {

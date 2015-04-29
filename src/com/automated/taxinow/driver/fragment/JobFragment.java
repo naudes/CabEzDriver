@@ -854,10 +854,11 @@ public class JobFragment extends BaseMapFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		mMapView.onResume();
 		registerCancelReceiver();
 		registerPaymentModeReceiver();
 		registerDestinationReceiver();
-		mMapView.onResume();
+
 	}
 
 	@Override

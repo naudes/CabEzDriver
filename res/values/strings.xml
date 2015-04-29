@@ -173,6 +173,7 @@
     <string name="progress_dialog_sign_in">SIGNING IN</string>
     <string name="progress_dialog_register">REGISTERING</string>
     <string name="progress_dialog_request">GETTING REQUESTS</string>
+    <string name="progress_dialog_loading">LOADING</string>
     <string name="progress_rating">RATING SERVICE</string>
     <string name="progress_respond_request">RESPONDING REQUESTS</string>
     <string name="progress_send_request">SENDING REQUESTS</string>
