@@ -17,15 +17,21 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.DrawerLayout.DrawerListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.androidquery.AQuery;
@@ -55,13 +61,18 @@ import com.automated.taxinow.driver.widget.MyFontTextViewDrawer;
  */
 public class MapActivity extends ActionBarBaseActivitiy implements
 		OnItemClickListener, AsyncTaskCompleteListener {
+
+	// Drawer Initialization
 	private DrawerLayout drawerLayout;
 	private DrawerAdapter adapter;
 	private ListView drawerList;
-	// private ActionBarDrawerToggle mDrawerToggle;
-	private MyFontTextView tvLogoutOk, tvLogoutCancel, tvExitOk, tvExitCancel;
+	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
+
+	private MyFontTextView tvLogoutOk, tvLogoutCancel, tvExitOk, tvExitCancel,
+			tvApprovedClose;
+
 	private PreferenceHelper preferenceHelper;
 	private ParseContent parseContent;
 	private static final String TAG = "MapActivity";
@@ -76,7 +87,6 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	private ImageOptions imageOptions;
 	private ImageView ivMenuProfile;
 	private MyFontTextViewDrawer tvMenuName;
-	private MyFontTextView tvApprovedClose;
 	private boolean isLogoutCheck = true, isApprovedCheck = true;
 	private BroadcastReceiver mReceiver;
 	private Dialog mDialog;
@@ -87,7 +97,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		super.onCreate(savedInstanceState);
 
 		// Mint.initAndStartSession(MapActivity.this, "fdd1b971");
-		setContentView(R.layout.activity_map);
+		setContentView(R.layout.activity_main);
 		preferenceHelper = new PreferenceHelper(this);
 		// mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
 		// mMenuDrawer.setContentView(R.layout.activity_map);
@@ -96,18 +106,6 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		arrayListApplicationPages = new ArrayList<ApplicationPages>();
 		parseContent = new ParseContent(this);
 		mTitle = mDrawerTitle = getTitle();
-
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		drawerList = (ListView) findViewById(R.id.left_drawer);
-
-		drawerList.setOnItemClickListener(this);
-		adapter = new DrawerAdapter(this, arrayListApplicationPages);
-		headerView = getLayoutInflater().inflate(R.layout.menu_drawer, null);
-		drawerList.addHeaderView(headerView);
-		drawerList.setAdapter(adapter);
-		ivMenuProfile = (ImageView) headerView.findViewById(R.id.ivMenuProfile);
-		tvMenuName = (MyFontTextViewDrawer) headerView
-				.findViewById(R.id.tvMenuName);
 
 		// drawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 		// GravityCompat.START);
@@ -135,6 +133,11 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		// }
 		// };
 		// drawerLayout.setDrawerListener(mDrawerToggle);
+
+		moveDrawerToTop();
+		initActionBar();
+		initDrawer();
+
 		manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		aQuery = new AQuery(this);
 		imageOptions = new ImageOptions();
@@ -158,6 +161,78 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 				mDialog.dismiss();
 			}
 		}
+	}
+
+	public void initDrawer() {
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerList = (ListView) findViewById(R.id.left_drawer);
+		drawerLayout.setDrawerListener(createDrawerToggle());
+		drawerList.setOnItemClickListener(this);
+		adapter = new DrawerAdapter(this, arrayListApplicationPages);
+		headerView = getLayoutInflater().inflate(R.layout.menu_drawer, null);
+		drawerList.addHeaderView(headerView);
+		drawerList.setAdapter(adapter);
+		ivMenuProfile = (ImageView) headerView.findViewById(R.id.ivMenuProfile);
+		tvMenuName = (MyFontTextViewDrawer) headerView
+				.findViewById(R.id.tvMenuName);
+
+	}
+
+	private void initActionBar() {
+		actionBar = getSupportActionBar();
+		// actionBar.setDisplayHomeAsUpEnabled(true);
+		// actionBar.setHomeButtonEnabled(true);
+	}
+
+	private DrawerListener createDrawerToggle() {
+		mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+				R.drawable.menu, R.string.drawer_open, R.string.drawer_close) {
+
+			@Override
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+			}
+
+			@Override
+			public void onDrawerStateChanged(int state) {
+			}
+		};
+		return mDrawerToggle;
+	}
+
+	private void moveDrawerToTop() {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		DrawerLayout drawer = (DrawerLayout) inflater.inflate(
+				R.layout.activity_map, null); // "null" is important.
+
+		// HACK: "steal" the first child of decor view
+		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+		View child = decor.getChildAt(0);
+		decor.removeView(child);
+		LinearLayout container = (LinearLayout) drawer
+				.findViewById(R.id.llContent); // This is the container we
+												// defined just now.
+		container.addView(child, 0);
+		drawer.findViewById(R.id.left_drawer).setPadding(0,
+				(actionBar.getHeight() + getStatusBarHeight()), 0, 0);
+
+		// Make the drawer replace the first child
+		decor.addView(drawer);
+	}
+
+	public int getStatusBarHeight() {
+		int result = 0;
+		int resourceId = getResources().getIdentifier("status_bar_height",
+				"dimen", "android");
+		if (resourceId > 0) {
+			result = getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
 	}
 
 	@Override
@@ -435,7 +510,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			}
 		}
 
-		// registerIsApproved();
+		registerIsApproved();
 	};
 
 	@Override
@@ -448,7 +523,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			unregisterReceiver(GpsChangeReceiver);
 
 		}
-		// unregisterIsApproved();
+		unregisterIsApproved();
 
 	}
 
@@ -558,7 +633,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// mDrawerToggle.syncState();
+		mDrawerToggle.syncState();
 	}
 
 	@Override
