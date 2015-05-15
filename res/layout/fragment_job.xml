@@ -8,11 +8,26 @@
         android:id="@+id/clientDetailView"
         layout="@layout/include_detail_view" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/jobMap"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1" >
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/jobMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btnNavigate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/activity_margin_register"
+            android:layout_marginTop="@dimen/activity_margin_register"
+            android:background="@drawable/navigation"
+            android:visibility="visible" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +64,7 @@
             android:drawablePadding="@dimen/feedback_padding"
             android:drawableTop="@drawable/miles"
             android:gravity="center"
-            android:text="0 kms"
+            android:text="0"
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_app_gray" />

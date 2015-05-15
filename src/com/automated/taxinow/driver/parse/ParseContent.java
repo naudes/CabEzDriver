@@ -276,11 +276,11 @@ public class ParseContent {
 		if (TextUtils.isEmpty(response)) {
 			return null;
 		}
-		RequestDetail requestDetail = null;
+		RequestDetail requestDetail = new RequestDetail();
 		try {
 			JSONObject jsonObject = new JSONObject(response);
 			if (jsonObject.getBoolean(KEY_SUCCESS)) {
-				requestDetail = new RequestDetail();
+
 				requestDetail.setJobStatus(AndyConstants.IS_ASSIGNED);
 				JSONObject object = jsonObject
 						.getJSONObject(AndyConstants.Params.REQUEST);
@@ -346,7 +346,8 @@ public class ParseContent {
 						.getString(AndyConstants.Params.LATITUDE));
 				requestDetail.setClientLongitude(ownerDetailObject
 						.getString(AndyConstants.Params.LONGITUDE));
-				requestDetail.setUnit(object.getString("unit"));
+				requestDetail.setUnit(object
+						.getString(AndyConstants.Params.UNIT));
 
 				JSONObject jsonObjectBill = object.optJSONObject("bill");
 
@@ -369,6 +370,13 @@ public class ParseContent {
 							.format(Double.parseDouble(jsonObjectBill
 									.getString(AndyConstants.Params.TOTAL))));
 				}
+			} else {
+				requestDetail.setUnit(jsonObject
+						.getString(AndyConstants.Params.UNIT));
+				requestDetail.setDestinationLatitude(jsonObject
+						.getString(AndyConstants.Params.DESTINATION_LATITUDE));
+				requestDetail.setDestinationLongitude(jsonObject
+						.getString(AndyConstants.Params.DESTINATION_LONGITUDE));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -542,12 +550,38 @@ public class ParseContent {
 	public ArrayList<ApplicationPages> parsePages(
 			ArrayList<ApplicationPages> list, String response) {
 		list.clear();
-
+		ApplicationPages applicationPages = new ApplicationPages();
+		applicationPages.setId(-1);
+		applicationPages.setTitle(activity.getResources().getString(
+				R.string.text_profile));
+		applicationPages.setData("");
+		applicationPages.setIcon("");
+		list.add(applicationPages);
+		applicationPages = new ApplicationPages();
+		applicationPages.setId(-2);
+		applicationPages.setTitle(activity.getResources().getString(
+				R.string.text_history));
+		applicationPages.setData("");
+		applicationPages.setIcon("");
+		list.add(applicationPages);
+		applicationPages = new ApplicationPages();
+		applicationPages.setId(-3);
+		applicationPages.setTitle(activity.getResources().getString(
+				R.string.text_setting));
+		applicationPages.setData("");
+		applicationPages.setIcon("");
+		list.add(applicationPages);
+		applicationPages = new ApplicationPages();
+		applicationPages.setId(-4);
+		applicationPages.setTitle(activity.getResources().getString(
+				R.string.text_share));
+		applicationPages.setData("");
+		applicationPages.setIcon("");
+		list.add(applicationPages);
 		if (TextUtils.isEmpty(response)) {
 			return list;
 		}
 		try {
-			ApplicationPages applicationPages = new ApplicationPages();
 			JSONObject jsonObject = new JSONObject(response);
 			if (jsonObject.getBoolean(KEY_SUCCESS)) {
 				JSONArray jsonArray = jsonObject
@@ -567,6 +601,7 @@ public class ParseContent {
 						list.add(applicationPages);
 					}
 				}
+
 			}
 			// else {
 			// AndyUtils.showToast(jsonObject.getString(KEY_ERROR), activity);

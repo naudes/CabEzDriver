@@ -29,11 +29,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 import com.automated.taxinow.driver.adapter.DrawerAdapter;
@@ -46,8 +49,8 @@ import com.automated.taxinow.driver.model.ApplicationPages;
 import com.automated.taxinow.driver.model.RequestDetail;
 import com.automated.taxinow.driver.model.User;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
 import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -91,6 +94,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	private BroadcastReceiver mReceiver;
 	private Dialog mDialog;
 	private View headerView;
+	private RequestQueue requestQueue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,7 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		// mMenuDrawer.setContentView(R.layout.activity_map);
 		// mMenuDrawer.setMenuView(R.layout.menu_drawer);
 		// mMenuDrawer.setDropShadowEnabled(false);
+		requestQueue = Volley.newRequestQueue(this);
 		arrayListApplicationPages = new ArrayList<ApplicationPages>();
 		parseContent = new ParseContent(this);
 		mTitle = mDrawerTitle = getTitle();
@@ -267,58 +272,13 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 	}
 
 	private void getMenuItems() {
-		arrayListApplicationPages.clear();
-		// HashMap<String, String> map = new HashMap<String, String>();
-		// map.put(AndyConstants.URL,
-		// AndyConstants.ServiceType.APPLICATION_PAGES);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(AndyConstants.URL, AndyConstants.ServiceType.APPLICATION_PAGES);
 		// new HttpRequester(this, map,
 		// AndyConstants.ServiceCode.APPLICATION_PAGES, true, this);
-		ApplicationPages applicationPages = new ApplicationPages();
-		applicationPages.setId(-1);
-		applicationPages.setTitle(getResources().getString(
-				R.string.text_profile));
-		applicationPages.setData("");
-		applicationPages.setIcon("");
-		arrayListApplicationPages.add(applicationPages);
-		applicationPages = new ApplicationPages();
-		applicationPages.setId(-2);
-		applicationPages.setTitle(getResources().getString(
-				R.string.text_history));
-		applicationPages.setData("");
-		applicationPages.setIcon("");
-		arrayListApplicationPages.add(applicationPages);
 
-		applicationPages = new ApplicationPages();
-		applicationPages.setId(-3);
-		applicationPages.setTitle(getResources().getString(
-				R.string.text_setting));
-		applicationPages.setData("");
-		applicationPages.setIcon("");
-		arrayListApplicationPages.add(applicationPages);
-
-		// applicationPages = new ApplicationPages();
-		// applicationPages.setId(-4);
-		// applicationPages.setTitle(getResources().getString(R.string.text_help));
-		// applicationPages.setData("");
-		// applicationPages.setIcon("");
-		// arrayListApplicationPages.add(applicationPages);
-
-		applicationPages = new ApplicationPages();
-		applicationPages.setId(-4);
-		applicationPages
-				.setTitle(getResources().getString(R.string.text_share));
-		applicationPages.setData("");
-		applicationPages.setIcon("");
-		arrayListApplicationPages.add(applicationPages);
-
-		applicationPages = new ApplicationPages();
-		applicationPages.setData("");
-		applicationPages.setId(-5);
-		applicationPages.setIcon("");
-		applicationPages.setTitle(getString(R.string.text_logout));
-		arrayListApplicationPages.add(applicationPages);
-		adapter.notifyDataSetChanged();
-		isDataRecieved = true;
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.APPLICATION_PAGES, this, this));
 	}
 
 	public BroadcastReceiver GpsChangeReceiver = new BroadcastReceiver() {
@@ -542,7 +502,21 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			startActivity(new Intent(this, HistoryActivity.class));
 		} else if (position == 3) {
 			startActivity(new Intent(this, SettingActivity.class));
+		} else if (position == 4) {
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "I am using "
+					+ getString(R.string.app_name)
+					+ " App ! Why don't you try it out...\nInstall "
+					+ getString(R.string.app_name)
+					+ " now !\nhttps://play.google.com/store/apps/details?id="
+					+ getPackageName());
+			sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+					getString(R.string.app_name) + " App !");
+			sendIntent.setType("text/plain");
 
+			startActivity(Intent.createChooser(sendIntent,
+					getString(R.string.text_share_app)));
 		} else if (position == (arrayListApplicationPages.size())) {
 			if (isLogoutCheck) {
 				openLogoutDialog();
@@ -571,23 +545,14 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 			// }
 			// }).setIcon(android.R.drawable.ic_dialog_alert)
 			// .show();
-		} else if (position == 4) {
-			Intent sendIntent = new Intent();
-			sendIntent.setAction(Intent.ACTION_SEND);
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "I am using "
-					+ getString(R.string.app_name)
-					+ " App ! Why don't you try it out...\nInstall "
-					+ getString(R.string.app_name)
-					+ " now !\nhttps://play.google.com/store/apps/details?id="
-					+ getPackageName());
-			sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-					getString(R.string.app_name) + " App !");
-			sendIntent.setType("text/plain");
 
-			startActivity(Intent.createChooser(sendIntent,
-					getString(R.string.text_share_app)));
 		} else {
-			// startActivity(new Intent(this, HelpActivity.class));
+			Intent intent = new Intent(this, MenuDescActivity.class);
+			intent.putExtra(AndyConstants.Params.TITLE,
+					arrayListApplicationPages.get(position - 1).getTitle());
+			intent.putExtra(AndyConstants.Params.CONTENT,
+					arrayListApplicationPages.get(position - 1).getData());
+			startActivity(intent);
 		}
 	}
 
@@ -670,8 +635,11 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.LOGOUT);
 		map.put(AndyConstants.Params.ID, preferenceHelper.getUserId());
 		map.put(AndyConstants.Params.TOKEN, preferenceHelper.getSessionToken());
-		new HttpRequester(this, map, AndyConstants.ServiceCode.LOGOUT, false,
-				this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.LOGOUT, false,
+		// this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGOUT, this, this));
 	}
 
 	public void getRequestsInProgress() {
@@ -691,8 +659,11 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 						+ preferenceHelper.getUserId() + "&"
 						+ AndyConstants.Params.TOKEN + "="
 						+ preferenceHelper.getSessionToken());
-		new HttpRequester(this, map,
-				AndyConstants.ServiceCode.REQUEST_IN_PROGRESS, true, this);
+		// new HttpRequester(this, map,
+		// AndyConstants.ServiceCode.REQUEST_IN_PROGRESS, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.REQUEST_IN_PROGRESS, this, this));
 	}
 
 	public void checkRequestStatus() {
@@ -713,8 +684,11 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 						+ preferenceHelper.getSessionToken() + "&"
 						+ AndyConstants.Params.REQUEST_ID + "="
 						+ preferenceHelper.getRequestId());
-		new HttpRequester(this, map,
-				AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, true, this);
+		// new HttpRequester(this, map,
+		// AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, this, this));
 	}
 
 	public void openApprovedDialog() {
@@ -902,6 +876,11 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 				addFragment(feedbackFrament, false,
 						AndyConstants.FEEDBACK_FRAGMENT_TAG, true);
 				break;
+
+			case AndyConstants.ServiceCode.APPLICATION_PAGES:
+
+				break;
+
 			// case AndyConstants.IS_ASSIGNED:
 			// bundle.putInt(AndyConstants.JOB_STATUS,
 			// AndyConstants.IS_ASSIGNED);
@@ -961,7 +940,10 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN,
 				preferenceHelper.getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, AndyConstants.MANUAL);
-		new HttpRequester(this, map, AndyConstants.ServiceCode.LOGIN, this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.LOGIN, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
 	}
 
 	private void loginSocial(String id, String loginType) {
@@ -979,8 +961,17 @@ public class MapActivity extends ActionBarBaseActivitiy implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN,
 				preferenceHelper.getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, loginType);
-		new HttpRequester(this, map, AndyConstants.ServiceCode.LOGIN, this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.LOGIN, this);
 
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
+
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
 	}
 
 }

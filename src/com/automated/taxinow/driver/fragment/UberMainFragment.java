@@ -3,14 +3,6 @@ package com.automated.taxinow.driver.fragment;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.automated.taxinow.driver.R;
-import com.automated.taxinow.driver.base.BaseRegisterFragment;
-import com.automated.taxinow.driver.gcm.CommonUtilities;
-import com.automated.taxinow.driver.utills.AndyConstants;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.AppLog;
-import com.automated.taxinow.driver.utills.PreferenceHelper;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,6 +20,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.base.BaseRegisterFragment;
+import com.automated.taxinow.driver.gcm.CommonUtilities;
+import com.automated.taxinow.driver.utills.AndyConstants;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.AppLog;
+import com.automated.taxinow.driver.utills.PreferenceHelper;
 
 /**
  * @author Kishan H Dhamat
@@ -173,5 +174,11 @@ public class UberMainFragment extends BaseRegisterFragment implements
 			}
 		}
 	};
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

@@ -35,6 +35,10 @@ import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
 import com.automated.taxinow.driver.R;
@@ -42,9 +46,9 @@ import com.automated.taxinow.driver.adapter.VehicalTypeListAdapter;
 import com.automated.taxinow.driver.base.BaseRegisterFragment;
 import com.automated.taxinow.driver.model.VehicalType;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
 import com.automated.taxinow.driver.parse.MultiPartRequester;
 import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -107,6 +111,7 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	private final String TAG = "RegisterFragment";
 	private static final int RC_SIGN_IN = 0;
 	private int selectedTypePostion = -1;
+	private RequestQueue requestQueue;
 
 	Permission[] facebookPermission = new Permission[] { Permission.EMAIL };
 
@@ -249,6 +254,7 @@ public class RegisterFragment extends BaseRegisterFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		country = Locale.getDefault().getDisplayCountry();
+		requestQueue = Volley.newRequestQueue(registerActivity);
 	}
 
 	@Override
@@ -431,11 +437,12 @@ public class RegisterFragment extends BaseRegisterFragment implements
 					getResources().getString(R.string.error_empty_number),
 					registerActivity);
 			return;
-		} else if (profileImageData == null || profileImageData.equals("")) {
-			AndyUtils.showToast(
-					getResources().getString(R.string.error_empty_image),
-					registerActivity);
-			return;
+			// } else if (profileImageData == null ||
+			// profileImageData.equals("")) {
+			// AndyUtils.showToast(
+			// getResources().getString(R.string.error_empty_image),
+			// registerActivity);
+			// return;
 		} else if (selectedTypePostion == -1) {
 			AndyUtils.showToast(
 					getResources().getString(R.string.error_empty_type),
@@ -784,6 +791,10 @@ public class RegisterFragment extends BaseRegisterFragment implements
 				registerActivity).getDeviceToken());
 		map.put(AndyConstants.Params.ZIPCODE, etRegisterZipcode.getText()
 				.toString().trim());
+		map.put(AndyConstants.Params.TAXI_MODEL, etRegisterModel.getText()
+				.toString().trim());
+		map.put(AndyConstants.Params.TAXI_NUMBER, etRegisterTaxiNo.getText()
+				.toString().trim());
 		map.put(AndyConstants.Params.SOCIAL_UNIQUE_ID, id);
 		map.put(AndyConstants.Params.LOGIN_BY, loginType);
 		new MultiPartRequester(registerActivity, map,
@@ -873,8 +884,11 @@ public class RegisterFragment extends BaseRegisterFragment implements
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.GET_VEHICAL_TYPES);
 		AppLog.Log(TAG, AndyConstants.URL);
-		new HttpRequester(registerActivity, map,
-				AndyConstants.ServiceCode.GET_VEHICAL_TYPES, true, this);
+		// new HttpRequester(registerActivity, map,
+		// AndyConstants.ServiceCode.GET_VEHICAL_TYPES, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.GET_VEHICAL_TYPES, this, this));
 	}
 
 	@Override
@@ -903,5 +917,11 @@ public class RegisterFragment extends BaseRegisterFragment implements
 					Crop.getError(result).getMessage(), Toast.LENGTH_SHORT)
 					.show();
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -51,6 +51,7 @@
     <string name="text_setting">Settings</string>
     <string name="text_help">Help</string>
     <string name="text_avaibility">Availability</string>
+    <string name="text_sound">Sound</string>
     <string name="text_logout">Logout</string>
     <string name="text_seconds"> SECONDS</string>
     <string name="text_invoice">INVOICE</string>
@@ -108,6 +109,7 @@
     <string name="text_job_done">JOB DONE</string>
     <!-- feedback -->
     <string name="text_empty_feedback">How was your trip?</string>
+    <string name="text_empty_rating">Please give rating to client.</string>
     <!-- profile -->
     <string name="text_edit_profile">EDIT PROFILE</string>
     <string name="text_update_profile">UPDATE PROFILE</string> <!-- validations -->

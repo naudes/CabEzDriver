@@ -27,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
@@ -668,5 +669,11 @@ public class ProfileActivity extends ActionBarBaseActivitiy implements
 			Toast.makeText(this, Crop.getError(result).getMessage(),
 					Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+
 	}
 }

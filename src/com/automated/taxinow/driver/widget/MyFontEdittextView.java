@@ -1,13 +1,13 @@
 package com.automated.taxinow.driver.widget;
 
-import com.automated.taxinow.driver.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
+
+import com.automated.taxinow.driver.R;
 
 public class MyFontEdittextView extends EditText {
 

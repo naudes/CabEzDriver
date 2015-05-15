@@ -1,10 +1,12 @@
 package com.automated.taxinow.driver.fragment;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,11 +27,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.automated.taxinow.driver.MapActivity;
 import com.automated.taxinow.driver.R;
@@ -39,8 +48,8 @@ import com.automated.taxinow.driver.model.BeanRoute;
 import com.automated.taxinow.driver.model.BeanStep;
 import com.automated.taxinow.driver.model.RequestDetail;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
 import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -53,11 +62,13 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -75,7 +86,8 @@ public class JobFragment extends BaseMapFragment implements
 	private PolylineOptions lineOptions;
 	private BeanRoute route;
 	private ArrayList<LatLng> points;
-	private MyFontTextView tvJobTime, tvJobDistance, tvJobStatus, tvClientName;
+	private MyFontTextView tvJobTime, tvJobDistance, tvJobStatus, tvClientName,
+			tvDestinationAddress;
 	private ImageView ivClientProfilePicture;
 	private RatingBar tvClientRating;
 	private ParseContent parseContent;
@@ -104,6 +116,13 @@ public class JobFragment extends BaseMapFragment implements
 	private PolylineOptions lineOptionsDest;
 	private Polyline polyLineDest;
 	private Marker markerDestination;
+	private RequestQueue requestQueue;
+	private ImageButton btnNavigate;
+	private boolean isAddMarker = false;
+	private BeanRoute routeClient;
+	private ArrayList<LatLng> pointsClient;
+	private PolylineOptions lineOptionsClient;
+	private Polyline polyLineClient;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,8 +152,18 @@ public class JobFragment extends BaseMapFragment implements
 				.findViewById(R.id.tvClientRating);
 		ivClientProfilePicture = (ImageView) jobFragmentView
 				.findViewById(R.id.ivClientImage);
+		btnNavigate = (ImageButton) jobFragmentView
+				.findViewById(R.id.btnNavigate);
+		tvDestinationAddress = (MyFontTextView) jobFragmentView
+				.findViewById(R.id.tvDestinationAddress);
 
 		tvJobStatus.setOnClickListener(this);
+		if (preferenceHelper.isNavigate()) {
+			btnNavigate.setVisibility(View.GONE);
+		} else {
+			btnNavigate.setVisibility(View.VISIBLE);
+			btnNavigate.setOnClickListener(this);
+		}
 		jobFragmentView.findViewById(R.id.tvJobCallClient).setOnClickListener(
 				this);
 
@@ -146,6 +175,10 @@ public class JobFragment extends BaseMapFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mBundle = savedInstanceState;
+		requestQueue = Volley.newRequestQueue(mapActivity);
+		// getDestinationAddress(preferenceHelper.getDestinationLatitude(),
+		// preferenceHelper.getDestinationLongitude());
+
 	}
 
 	@Override
@@ -169,6 +202,7 @@ public class JobFragment extends BaseMapFragment implements
 
 		setClientDetails(requestDetail);
 		setjobStatus(jobStatus);
+
 		mMapView = (MapView) jobFragmentView.findViewById(R.id.jobMap);
 		mMapView.onCreate(mBundle);
 		setUpMap();
@@ -195,8 +229,11 @@ public class JobFragment extends BaseMapFragment implements
 						+ preferenceHelper.getSessionToken() + "&"
 						+ AndyConstants.Params.REQUEST_ID + "="
 						+ preferenceHelper.getRequestId());
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.PATH_REQUEST, true, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.PATH_REQUEST, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.PATH_REQUEST, this, this));
 	}
 
 	private void setClientDetails(RequestDetail requestDetail) {
@@ -211,6 +248,50 @@ public class JobFragment extends BaseMapFragment implements
 		} else {
 			aQuery.id(ivClientProfilePicture).progress(R.id.pBar)
 					.image(requestDetail.getClientProfile());
+
+		}
+
+	}
+
+	public void getDestinationAddress(String latitude, String longitude) {
+
+		if (TextUtils.isEmpty(latitude) && TextUtils.isEmpty(longitude)) {
+			tvClientRating.setVisibility(View.VISIBLE);
+			preferenceHelper.putDestinationLatitude("");
+			preferenceHelper.putDestinationLongitude("");
+			tvDestinationAddress.setVisibility(View.GONE);
+		} else {
+
+			Geocoder geocoder;
+			List<Address> addresses;
+			geocoder = new Geocoder(mapActivity, Locale.getDefault());
+			try {
+				addresses = geocoder.getFromLocation(
+						Double.parseDouble(latitude),
+						Double.parseDouble(longitude), 1);
+
+				String address = addresses.get(0).getAddressLine(0);
+				String city = addresses.get(0).getLocality();
+				String state = addresses.get(0).getAdminArea();
+				String country = addresses.get(0).getCountryName();
+				String postalCode = addresses.get(0).getPostalCode();
+				// String knownName = addresses.get(0).getFeatureName();
+
+				tvDestinationAddress.setVisibility(View.VISIBLE);
+				tvClientRating.setVisibility(View.GONE);
+				tvDestinationAddress.setText(" " + address + " " + city + "\n "
+						+ state + " " + country + " " + postalCode);
+
+				AppLog.Log("Address", " " + address + " " + city + "\n "
+						+ state + " " + country + " " + postalCode);
+
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
@@ -282,9 +363,64 @@ public class JobFragment extends BaseMapFragment implements
 						Toast.LENGTH_SHORT).show();
 			}
 			break;
+
+		case R.id.btnNavigate:
+			if (markerClientLocation != null && markerDriverLocation != null) {
+				preferenceHelper.putIsNavigate(true);
+				animateCamera(markerDriverLocation.getPosition());
+				v.setVisibility(View.GONE);
+				drawPathToClient(markerDriverLocation.getPosition(),
+						markerClientLocation.getPosition());
+			} else {
+				AndyUtils.showToast("Wating for location", getActivity());
+			}
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void animateCamera(LatLng latlng) {
+		if (markerClientLocation != null) {
+			try {
+				Location dest = new Location("dest");
+				dest.setLatitude(markerClientLocation.getPosition().latitude);
+				dest.setLongitude(markerClientLocation.getPosition().longitude);
+
+				CameraPosition cameraPosition = new CameraPosition.Builder()
+						.target(latlng).bearing(location.bearingTo(dest))
+						.zoom(googleMap.getCameraPosition().zoom).tilt(45)
+						.build();
+				googleMap.animateCamera(CameraUpdateFactory
+						.newCameraPosition(cameraPosition));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void drawPathToClient(LatLng source, LatLng destination) {
+		if (source == null || destination == null) {
+			return;
+		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(AndyConstants.URL,
+				"https://maps.googleapis.com/maps/api/directions/json?origin="
+						+ source.latitude + "," + source.longitude
+						+ "&destination=" + destination.latitude + ","
+						+ destination.longitude + "&sensor=false&key="
+						+ AndyConstants.DIRECTION_API_KEY);
+
+		AppLog.Log("Navigation Path",
+				"https://maps.googleapis.com/maps/api/directions/json?origin="
+						+ source.latitude + "," + source.longitude
+						+ "&destination=" + destination.latitude + ","
+						+ destination.longitude + "&sensor=false&key="
+						+ AndyConstants.DIRECTION_API_KEY);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.DRAW_PATH_CLIENT, true, this);
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.DRAW_PATH_CLIENT, this, this));
 	}
 
 	/**
@@ -314,8 +450,11 @@ public class JobFragment extends BaseMapFragment implements
 		map.put(AndyConstants.Params.DISTANCE, preferenceHelper.getDistance()
 				+ "");
 		map.put(AndyConstants.Params.TIME, time);
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.WALK_COMPLETED, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.WALK_COMPLETED, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.WALK_COMPLETED, this, this));
 	}
 
 	/**
@@ -341,8 +480,11 @@ public class JobFragment extends BaseMapFragment implements
 				preferenceHelper.getWalkerLatitude());
 		map.put(AndyConstants.Params.LONGITUDE,
 				preferenceHelper.getWalkerLongitude());
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.WALK_STARTED, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.WALK_STARTED, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.WALK_STARTED, this, this));
 	}
 
 	/**
@@ -369,8 +511,11 @@ public class JobFragment extends BaseMapFragment implements
 				preferenceHelper.getWalkerLatitude());
 		map.put(AndyConstants.Params.LONGITUDE,
 				preferenceHelper.getWalkerLongitude());
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.WALKER_ARRIVED, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.WALKER_ARRIVED, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.WALKER_ARRIVED, this, this));
 	}
 
 	/**
@@ -397,8 +542,11 @@ public class JobFragment extends BaseMapFragment implements
 				preferenceHelper.getWalkerLatitude());
 		map.put(AndyConstants.Params.LONGITUDE,
 				preferenceHelper.getWalkerLongitude());
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.WALKER_STARTED, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.WALKER_STARTED, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.WALKER_STARTED, this, this));
 	}
 
 	private void setUpMap() {
@@ -487,6 +635,21 @@ public class JobFragment extends BaseMapFragment implements
 											new LatLng(location.getLatitude(),
 													location.getLongitude()),
 											16));
+									googleMap
+											.setOnCameraChangeListener(new OnCameraChangeListener() {
+
+												@Override
+												public void onCameraChange(
+														CameraPosition arg0) {
+													if (!isAddMarker) {
+														isAddMarker = true;
+														if (preferenceHelper
+																.isNavigate())
+															animateCamera(markerDriverLocation
+																	.getPosition());
+													}
+												}
+											});
 								} else {
 									markerDriverLocation
 											.setPosition(new LatLng(location
@@ -544,6 +707,7 @@ public class JobFragment extends BaseMapFragment implements
 	@Override
 	public void onTaskCompleted(String response, int serviceCode) {
 		AndyUtils.removeCustomProgressDialog();
+		LatLng latlong;
 		switch (serviceCode) {
 		case AndyConstants.ServiceCode.WALKER_STARTED:
 			AppLog.Log(TAG, "walker started response " + response);
@@ -663,6 +827,32 @@ public class JobFragment extends BaseMapFragment implements
 				}
 			}
 			break;
+
+		case AndyConstants.ServiceCode.DRAW_PATH_CLIENT:
+			AppLog.Log("JobFragment", "PATH Response : " + response);
+			if (!TextUtils.isEmpty(response)) {
+				routeClient = new BeanRoute();
+				parseContent.parseRoute(response, routeClient);
+
+				final ArrayList<BeanStep> step = routeClient.getListStep();
+				pointsClient = new ArrayList<LatLng>();
+				lineOptionsClient = new PolylineOptions();
+
+				for (int i = 0; i < step.size(); i++) {
+					List<LatLng> path = step.get(i).getListPoints();
+					pointsClient.addAll(path);
+				}
+				if (polyLineClient != null)
+					polyLineClient.remove();
+				lineOptionsClient.addAll(pointsClient);
+				lineOptionsClient.width(17);
+				lineOptionsClient.color(Color.BLUE);
+
+				if (lineOptionsClient != null && googleMap != null) {
+					polyLineClient = googleMap.addPolyline(lineOptionsClient);
+				}
+			}
+
 		default:
 			break;
 		}
@@ -718,7 +908,19 @@ public class JobFragment extends BaseMapFragment implements
 		if (googleMap == null) {
 			return;
 		}
+
+		if (markerDriverLocation != null && markerClientLocation != null) {
+
+			if (preferenceHelper.isNavigate()) {
+				drawPathToClient(markerDriverLocation.getPosition(),
+						markerClientLocation.getPosition());
+			}
+
+		}
+		getDestinationAddress(preferenceHelper.getDestinationLatitude(),
+				preferenceHelper.getDestinationLongitude());
 		if (markerClientLocation == null) {
+
 			markerClientLocation = googleMap.addMarker(new MarkerOptions()
 					.position(
 							new LatLng(Double.parseDouble(requestDetail
@@ -774,7 +976,12 @@ public class JobFragment extends BaseMapFragment implements
 								// / (1000 * 1.62))
 								) + " " + preferenceHelper.getUnit());
 
+					} else {
+						tvJobDistance
+								.setText("0 " + preferenceHelper.getUnit());
+
 					}
+
 				}
 				// getDistance();
 			}
@@ -858,6 +1065,13 @@ public class JobFragment extends BaseMapFragment implements
 		registerCancelReceiver();
 		registerPaymentModeReceiver();
 		registerDestinationReceiver();
+		if (isAddMarker && preferenceHelper.isNavigate()) {
+			if (jobStatus == AndyConstants.IS_WALKER_ARRIVED) {
+				drawPathToClient(markerDriverLocation.getPosition(),
+						markerClientLocation.getPosition());
+			}
+
+		}
 
 	}
 
@@ -948,8 +1162,11 @@ public class JobFragment extends BaseMapFragment implements
 						+ source.latitude + "," + source.longitude
 						+ "&destination=" + destination.latitude + ","
 						+ destination.longitude + "&sensor=false");
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.DRAW_PATH, true, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.DRAW_PATH, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.DRAW_PATH, this, this));
 	}
 
 	private void setDestinationMarker(LatLng latLng) {
@@ -967,5 +1184,11 @@ public class JobFragment extends BaseMapFragment implements
 				}
 			}
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
 	}
 }

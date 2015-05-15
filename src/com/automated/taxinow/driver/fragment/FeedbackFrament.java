@@ -4,19 +4,22 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.automated.taxinow.driver.R;
 import com.automated.taxinow.driver.base.BaseMapFragment;
 import com.automated.taxinow.driver.model.RequestDetail;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -39,12 +42,14 @@ public class FeedbackFrament extends BaseMapFragment implements
 	private AQuery aQuery;
 	private MyFontTextView tvAmount;
 	private String paymentMode;
+	private RequestQueue requestQueue;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View feedbackFragmentView = inflater.inflate(
 				R.layout.fragment_feedback, container, false);
+		requestQueue = Volley.newRequestQueue(mapActivity);
 
 		etFeedbackComment = (MyFontEdittextView) feedbackFragmentView
 				.findViewById(R.id.etFeedbackComment);
@@ -93,6 +98,7 @@ public class FeedbackFrament extends BaseMapFragment implements
 						requestDetail.getPromoBonus(),
 						getString(R.string.text_confirm));
 
+		
 		tvTime.setText((int) (Double.parseDouble(requestDetail.getTime()))
 				+ " " + getString(R.string.text_mins));
 		tvDistance.setText(new DecimalFormat("0.00").format(Double
@@ -117,11 +123,15 @@ public class FeedbackFrament extends BaseMapFragment implements
 
 		case R.id.tvFeedbackSubmit:
 
-			if (TextUtils.isEmpty(etFeedbackComment.getText().toString())) {
+			// if (TextUtils.isEmpty(etFeedbackComment.getText().toString())) {
+			// AndyUtils.showToast(
+			// mapActivity.getResources().getString(
+			// R.string.text_empty_feedback), mapActivity);
+			// return;
+			if (ratingFeedback.getRating() == 0) {
 				AndyUtils.showToast(
 						mapActivity.getResources().getString(
-								R.string.text_empty_feedback), mapActivity);
-				return;
+								R.string.text_empty_rating), mapActivity);
 			} else {
 				giveRating();
 			}
@@ -159,8 +169,11 @@ public class FeedbackFrament extends BaseMapFragment implements
 		map.put(AndyConstants.Params.COMMENT, etFeedbackComment.getText()
 				.toString().trim());
 
-		new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.RATING,
-				this);
+		// new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.RATING,
+		// this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.RATING, this, this));
 	}
 
 	@Override
@@ -183,5 +196,12 @@ public class FeedbackFrament extends BaseMapFragment implements
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
+
 	}
 }

@@ -9,8 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -20,7 +20,7 @@ import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
 import com.automated.taxinow.driver.utills.PreferenceHelper;
 import com.automated.taxinow.driver.widget.MyFontTextView;
-import com.splunk.mint.Mint;
+
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -36,7 +36,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Mint.initAndStartSession(MainActivity.this, "4a3f0480");
 
 		preferenceHelper = new PreferenceHelper(this);
 		if (!TextUtils.isEmpty(preferenceHelper.getUserId())) {
@@ -144,12 +143,13 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
+
+		super.onDestroy();
 		if (isRecieverRegister) {
 			unregisterGcmReceiver(mHandleMessageReceiver);
 			isRecieverRegister = false;
 		}
-		Mint.closeSession(this);
-		super.onDestroy();
+
 	}
 
 	@Override

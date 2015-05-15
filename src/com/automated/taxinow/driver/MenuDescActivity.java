@@ -1,12 +1,13 @@
 package com.automated.taxinow.driver;
 
-import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
-import com.automated.taxinow.driver.utills.AndyConstants;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+
+import com.android.volley.VolleyError;
+import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
+import com.automated.taxinow.driver.utills.AndyConstants;
 
 /**
  * @author Kishan H Dhamat
@@ -24,6 +25,9 @@ public class MenuDescActivity extends ActionBarBaseActivitiy {
 				getIntent().getStringExtra(AndyConstants.Params.CONTENT),
 				"text/html", "utf-8");
 		setActionBarIcon(R.drawable.taxi);
+
+		tvTitle.setText(getIntent().getStringExtra(AndyConstants.Params.TITLE));
+
 		// getSupportActionBar().setTitle(
 		// getIntent().getStringExtra(AndyConstants.Params.TITLE));
 		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,5 +59,11 @@ public class MenuDescActivity extends ActionBarBaseActivitiy {
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+
 	}
 }

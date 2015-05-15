@@ -83,10 +83,10 @@ public class DrawerAdapter extends BaseAdapter {
 			aQuery.id(holder.ivMenuImage).image(R.drawable.ub__nav_history);
 		} else if (position == 2) {
 			aQuery.id(holder.ivMenuImage).image(R.drawable.promotion);
+		} else if (position == 3) {
+			aQuery.id(holder.ivMenuImage).image(R.drawable.share_menu);
 		} else if (position == (arrayListApplicationPages.size() - 1)) {
 			aQuery.id(holder.ivMenuImage).image(R.drawable.ub__nav_logout);
-		} else if (position == (arrayListApplicationPages.size() - 2)) {
-			aQuery.id(holder.ivMenuImage).image(R.drawable.share_menu);
 		} else {
 			if (TextUtils.isEmpty(arrayListApplicationPages.get(position)
 					.getIcon())) {

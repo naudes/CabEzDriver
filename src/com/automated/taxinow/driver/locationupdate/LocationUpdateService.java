@@ -20,6 +20,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.webkit.JsPromptResult;
 
 import com.automated.taxinow.driver.MapActivity;
 import com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived;
@@ -130,6 +131,8 @@ public class LocationUpdateService extends IntentService implements
 						AndyConstants.Params.LATITUDE, latitude));
 				nameValuePairs.add(new BasicNameValuePair(
 						AndyConstants.Params.LONGITUDE, longitude));
+				preferenceHelper.putLatitude(Double.parseDouble(latitude));
+				preferenceHelper.putLongitude(Double.parseDouble(longitude));
 
 				postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 				String response = httpClient.execute(postMethod, res);
@@ -183,13 +186,20 @@ public class LocationUpdateService extends IntentService implements
 				nameValuePairs.add(new BasicNameValuePair(
 						AndyConstants.Params.REQUEST_ID, preferenceHelper
 								.getRequestId() + ""));
-
+				double dist;
 				AppLog.Log("ID", id);
 				AppLog.Log("Token", token);
 				AppLog.Log("Latitude", latitude);
 				AppLog.Log("Longitude", longitude);
 
 				AppLog.Log("Request id", "" + preferenceHelper.getRequestId());
+
+				dist = AndyUtils.distance(preferenceHelper.getLatitude(),
+						preferenceHelper.getLongitude(),
+						Double.parseDouble(latitude),
+						Double.parseDouble(longitude), 'K');
+
+				AppLog.Log("50 meter vadu distance", "" + dist);
 
 				postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -204,8 +214,26 @@ public class LocationUpdateService extends IntentService implements
 					preferenceHelper.putDistance(Float.parseFloat(jsonObject
 							.getString(AndyConstants.Params.DISTANCE)));
 
-					preferenceHelper.putUnit(jsonObject.getString("unit"));
+					preferenceHelper.putUnit(jsonObject
+							.getString(AndyConstants.Params.UNIT));
 
+					preferenceHelper
+							.putDestinationLatitude(jsonObject
+									.getString(AndyConstants.Params.DESTINATION_LATITUDE));
+					preferenceHelper
+							.putDestinationLongitude(jsonObject
+									.getString(AndyConstants.Params.DESTINATION_LONGITUDE));
+
+				} else {
+					preferenceHelper.putUnit(jsonObject
+							.getString(AndyConstants.Params.UNIT));
+
+					preferenceHelper
+							.putDestinationLatitude(jsonObject
+									.getString(AndyConstants.Params.DESTINATION_LATITUDE));
+					preferenceHelper
+							.putDestinationLongitude(jsonObject
+									.getString(AndyConstants.Params.DESTINATION_LONGITUDE));
 				}
 				if (!jsonObject.getBoolean("success"))
 					if (jsonObject.getInt("is_cancelled") == 1) {

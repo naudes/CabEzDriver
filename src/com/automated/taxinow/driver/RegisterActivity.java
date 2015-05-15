@@ -1,22 +1,19 @@
 package com.automated.taxinow.driver;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
+import com.android.volley.VolleyError;
 import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
 import com.automated.taxinow.driver.fragment.LoginFragment;
 import com.automated.taxinow.driver.fragment.RegisterFragment;
 import com.automated.taxinow.driver.gcm.GCMRegisterHendler;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.widget.MyFontTextView;
 
 /**
  * @author Kishan H Dhamat
@@ -120,6 +117,12 @@ public class RegisterActivity extends ActionBarBaseActivitiy {
 			super.onBackPressed();
 
 		}
+
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
 
 	}
 

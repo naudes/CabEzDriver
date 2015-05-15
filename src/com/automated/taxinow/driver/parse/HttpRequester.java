@@ -16,14 +16,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
 
-import com.automated.taxinow.driver.R;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.AppLog;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.AppLog;
 
 public class HttpRequester {
 

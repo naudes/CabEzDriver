@@ -20,7 +20,7 @@ public final class R {
 		public static final int crop__selector_pressed = 0x7f060014;
 	}
 	public static final class dimen {
-		public static final int crop__bar_height = 0x7f070010;
+		public static final int crop__bar_height = 0x7f0a0010;
 	}
 	public static final class drawable {
 		public static final int crop__divider = 0x7f0200b2;
@@ -31,32 +31,32 @@ public final class R {
 		public static final int crop__tile = 0x7f0200b7;
 	}
 	public static final class id {
-		public static final int always = 0x7f08000e;
-		public static final int btn_cancel = 0x7f080093;
-		public static final int btn_done = 0x7f080094;
-		public static final int changing = 0x7f08000d;
-		public static final int crop_image = 0x7f080092;
-		public static final int done_cancel_bar = 0x7f080091;
-		public static final int never = 0x7f08000f;
+		public static final int always = 0x7f07000e;
+		public static final int btn_cancel = 0x7f070094;
+		public static final int btn_done = 0x7f070095;
+		public static final int changing = 0x7f07000d;
+		public static final int crop_image = 0x7f070093;
+		public static final int done_cancel_bar = 0x7f070092;
+		public static final int never = 0x7f07000f;
 	}
 	public static final class layout {
 		public static final int crop__activity_crop = 0x7f03002f;
 		public static final int crop__layout_done_cancel = 0x7f030030;
 	}
 	public static final class string {
-		public static final int crop__cancel = 0x7f09003b;
-		public static final int crop__done = 0x7f09003a;
-		public static final int crop__pick_error = 0x7f090039;
-		public static final int crop__saving = 0x7f090037;
-		public static final int crop__wait = 0x7f090038;
+		public static final int crop__cancel = 0x7f08003b;
+		public static final int crop__done = 0x7f08003a;
+		public static final int crop__pick_error = 0x7f080039;
+		public static final int crop__saving = 0x7f080037;
+		public static final int crop__wait = 0x7f080038;
 	}
 	public static final class style {
-		public static final int Crop = 0x7f0a0005;
-		public static final int Crop_ActionButton = 0x7f0a0007;
-		public static final int Crop_ActionButtonText = 0x7f0a0008;
-		public static final int Crop_ActionButtonText_Cancel = 0x7f0a000a;
-		public static final int Crop_ActionButtonText_Done = 0x7f0a0009;
-		public static final int Crop_DoneCancelBar = 0x7f0a0006;
+		public static final int Crop = 0x7f0b0005;
+		public static final int Crop_ActionButton = 0x7f0b0007;
+		public static final int Crop_ActionButtonText = 0x7f0b0008;
+		public static final int Crop_ActionButtonText_Cancel = 0x7f0b000a;
+		public static final int Crop_ActionButtonText_Done = 0x7f0b0009;
+		public static final int Crop_DoneCancelBar = 0x7f0b0006;
 	}
 	public static final class styleable {
 		public static final int[] CropImageView = { 0x7f010030, 0x7f010031, 0x7f010032 };

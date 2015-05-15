@@ -3,7 +3,6 @@
  */
 package com.automated.taxinow.driver;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,25 +14,24 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeSet;
 
-import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.automated.taxinow.driver.adapter.HistoryAdapter;
 import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
 import com.automated.taxinow.driver.model.History;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
 import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -56,6 +54,7 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 	private PinnedSectionListView lvHistory;
 	private ArrayList<Date> dateList = new ArrayList<Date>();
 	private ArrayList<History> historyListOrg;
+	private RequestQueue requestQueue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +63,8 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		// getSupportActionBar().setTitle(getString(R.string.text_history));
 		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		// getSupportActionBar().setHomeButtonEnabled(true);
+
+		requestQueue = Volley.newRequestQueue(this);
 		lvHistory = (PinnedSectionListView) findViewById(R.id.lvHistory);
 		tvEmptyHistory = (ImageView) findViewById(R.id.tvHistoryEmpty);
 		lvHistory.setOnItemClickListener(this);
@@ -74,6 +75,7 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		historyListOrg = new ArrayList<History>();
 		setActionBarTitle(getString(R.string.text_history));
 		setActionBarIcon(R.drawable.ub__nav_history);
+
 		getHistory();
 	}
 
@@ -108,8 +110,11 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 						+ "=" + preferenceHelper.getUserId() + "&"
 						+ AndyConstants.Params.TOKEN + "="
 						+ preferenceHelper.getSessionToken());
-		new HttpRequester(this, map, AndyConstants.ServiceCode.HISTORY, true,
-				this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.HISTORY, true,
+		// this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.HISTORY, this, this));
 	}
 
 	@Override
@@ -314,5 +319,12 @@ public class HistoryActivity extends ActionBarBaseActivitiy implements
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
+
 	}
 }

@@ -3,13 +3,6 @@ package com.automated.taxinow.driver.base;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-import com.automated.taxinow.driver.MainActivity;
-import com.automated.taxinow.driver.R;
-import com.automated.taxinow.driver.locationupdate.LocationUpdateService;
-import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.widget.MyFontButton;
-import com.automated.taxinow.driver.widget.MyFontTextViewTitle;
-
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -28,12 +21,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.android.volley.Response.ErrorListener;
+import com.automated.taxinow.driver.MainActivity;
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.locationupdate.LocationUpdateService;
+import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
+import com.automated.taxinow.driver.widget.MyFontButton;
+import com.automated.taxinow.driver.widget.MyFontTextViewTitle;
 
 /**
  * @author Kishan H Dhamat
@@ -41,7 +42,7 @@ import android.widget.TextView;
  */
 @SuppressLint("NewApi")
 abstract public class ActionBarBaseActivitiy extends ActionBarActivity
-		implements OnClickListener, AsyncTaskCompleteListener {
+		implements OnClickListener, AsyncTaskCompleteListener, ErrorListener {
 
 	protected ActionBar actionBar;
 	private int mFragmentId = 0;

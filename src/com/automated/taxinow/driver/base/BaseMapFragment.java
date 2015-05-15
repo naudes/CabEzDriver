@@ -2,34 +2,40 @@ package com.automated.taxinow.driver.base;
 
 import java.util.HashMap;
 
-import com.automated.taxinow.driver.MapActivity;
-import com.automated.taxinow.driver.R;
-import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
-import com.automated.taxinow.driver.parse.ParseContent;
-import com.automated.taxinow.driver.utills.AndyConstants;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.PreferenceHelper;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View.OnClickListener;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.toolbox.Volley;
+import com.automated.taxinow.driver.MapActivity;
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
+import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
+import com.automated.taxinow.driver.utills.AndyConstants;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.PreferenceHelper;
 
 /**
  * @author Kishan H Dhamat
  * 
  */
 public abstract class BaseMapFragment extends Fragment implements
-		OnClickListener, AsyncTaskCompleteListener {
+		OnClickListener, AsyncTaskCompleteListener, ErrorListener {
 	protected MapActivity mapActivity;
 	protected PreferenceHelper preferenceHelper;
 	protected ParseContent parseContent;
+	private RequestQueue requestQueue;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mapActivity = (MapActivity) getActivity();
+		requestQueue = Volley.newRequestQueue(mapActivity);
 		preferenceHelper = new PreferenceHelper(mapActivity);
 		parseContent = new ParseContent(mapActivity);
 	}
@@ -61,8 +67,10 @@ public abstract class BaseMapFragment extends Fragment implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN,
 				preferenceHelper.getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, AndyConstants.MANUAL);
-		new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.LOGIN,
-				this);
+		// new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.LOGIN,
+		// this);
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
 
 	}
 
@@ -82,7 +90,10 @@ public abstract class BaseMapFragment extends Fragment implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN,
 				preferenceHelper.getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, loginType);
-		new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.LOGIN,
-				this);
+		// new HttpRequester(mapActivity, map, AndyConstants.ServiceCode.LOGIN,
+		// this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
 	}
 }

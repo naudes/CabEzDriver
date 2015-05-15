@@ -16,6 +16,26 @@ public class RequestDetail implements Serializable {
 	private long startTime;
 	private String time, distance, unit, amount, date, total, basePrice,
 			distanceCost, timecost, referralBonus, promoBonus;
+	private String clientName, clientProfile, clientLatitude, clientLongitude,
+			clientPhoneNumber, destinationLatitude, destinationLongitude;
+
+	public String getDestinationLatitude() {
+		return destinationLatitude;
+	}
+
+	public void setDestinationLatitude(String destinationLatitude) {
+		this.destinationLatitude = destinationLatitude;
+	}
+
+	public String getDestinationLongitude() {
+		return destinationLongitude;
+	}
+
+	public void setDestinationLongitude(String destinationLongitude) {
+		this.destinationLongitude = destinationLongitude;
+	}
+
+	private float clientRating;
 
 	public String getReferralBonus() {
 		return referralBonus;
@@ -126,10 +146,6 @@ public class RequestDetail implements Serializable {
 	public void setJobStatus(int jobStatus) {
 		this.jobStatus = jobStatus;
 	}
-
-	private String clientName, clientProfile, clientLatitude, clientLongitude,
-			clientPhoneNumber;
-	private float clientRating;
 
 	/**
 	 * @return the requestId

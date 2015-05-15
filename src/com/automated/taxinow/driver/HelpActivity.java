@@ -6,16 +6,6 @@ package com.automated.taxinow.driver;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.automated.taxinow.driver.adapter.DrawerAdapter;
-import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
-import com.automated.taxinow.driver.model.ApplicationPages;
-import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
-import com.automated.taxinow.driver.parse.ParseContent;
-import com.automated.taxinow.driver.utills.AndyConstants;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.AppLog;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,6 +14,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.automated.taxinow.driver.adapter.DrawerAdapter;
+import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
+import com.automated.taxinow.driver.model.ApplicationPages;
+import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
+import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
+import com.automated.taxinow.driver.utills.AndyConstants;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.AppLog;
 
 /**
  * @author Kishan H Dhamat
@@ -37,6 +41,7 @@ public class HelpActivity extends ActionBarBaseActivitiy implements
 	private ArrayList<ApplicationPages> listMenu;
 	private DrawerAdapter adapter;
 	private ImageView tvNoHistory;
+	private RequestQueue requestQueue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,7 @@ public class HelpActivity extends ActionBarBaseActivitiy implements
 		adapter = new DrawerAdapter(this, listMenu);
 		lvHelpMenu.setAdapter(adapter);
 		parseContent = new ParseContent(this);
+		requestQueue = Volley.newRequestQueue(this);
 		getHelpMenus();
 	}
 
@@ -77,8 +83,11 @@ public class HelpActivity extends ActionBarBaseActivitiy implements
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.APPLICATION_PAGES
 				+ "?user_type=1");
 
-		new HttpRequester(this, map,
-				AndyConstants.ServiceCode.APPLICATION_PAGES, true, this);
+		// new HttpRequester(this, map,
+		// AndyConstants.ServiceCode.APPLICATION_PAGES, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.APPLICATION_PAGES, this, this));
 	}
 
 	@Override
@@ -127,5 +136,11 @@ public class HelpActivity extends ActionBarBaseActivitiy implements
 			break;
 		}
 	}
-}
 
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
+	}
+
+}

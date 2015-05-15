@@ -1,8 +1,8 @@
 package com.automated.taxinow.driver.db;
 
-import com.automated.taxinow.driver.model.User;
-
 import android.content.Context;
+
+import com.automated.taxinow.driver.model.User;
 
 public class DBHelper {
 

@@ -1,18 +1,19 @@
 package com.automated.taxinow.driver.base;
 
-import com.automated.taxinow.driver.RegisterActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View.OnClickListener;
+
+import com.android.volley.Response.ErrorListener;
+import com.automated.taxinow.driver.RegisterActivity;
 
 /**
  * @author Kishan H Dhamat
  * 
  */
 public abstract class BaseRegisterFragment extends Fragment implements
-		OnClickListener {
+		OnClickListener, ErrorListener {
 	protected RegisterActivity registerActivity;
 
 	@Override

@@ -2,6 +2,7 @@ package com.automated.taxinow.driver.utills;
 
 public class AndyConstants {
 
+	public static final String DIRECTION_API_KEY = "AIzaSyAto7SNCNVJ4gFCciytelh9vTv_w5qrhAQ";
 	// fragment constants
 	public static final String MAIN_FRAGMENT_TAG = "mainFragment";
 	public static final String LOGIN_FRAGMENT_TAG = "loginFragment";
@@ -119,6 +120,7 @@ public class AndyConstants {
 		public static final int DRAW_PATH_ROAD = 22;
 		public static final int DRAW_PATH = 23;
 		public static final int LOGOUT = 24;
+		public static final int DRAW_PATH_CLIENT = 25;
 	}
 
 	// webservice key constants
@@ -181,6 +183,9 @@ public class AndyConstants {
 		public static final String CAR_MODEL = "car_model";
 		public static final String REFERRAL_BONUS = "referral_bonus";
 		public static final String PROMO_BONUS = "promo_bonus";
+		public static final String UNIT = "unit";
+		public static final String DESTINATION_LATITUDE = "dest_latitude";
+		public static final String DESTINATION_LONGITUDE = "dest_longitude";
 
 	}
 }

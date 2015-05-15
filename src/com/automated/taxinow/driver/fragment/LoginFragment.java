@@ -13,12 +13,16 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.automated.taxinow.driver.MapActivity;
 import com.automated.taxinow.driver.R;
 import com.automated.taxinow.driver.base.BaseRegisterFragment;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
 import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -56,6 +60,7 @@ public class LoginFragment extends BaseRegisterFragment implements
 	private boolean mSignInClicked, mIntentInProgress;
 	private final String TAG = "LoginFragment";
 	private static final int RC_SIGN_IN = 0;
+	private RequestQueue requestQueue;
 
 	Permission[] facebookPermissions = new Permission[] { Permission.EMAIL };
 
@@ -64,7 +69,7 @@ public class LoginFragment extends BaseRegisterFragment implements
 			Bundle savedInstanceState) {
 		View loginFragmentView = inflater.inflate(R.layout.fragment_login,
 				container, false);
-
+		requestQueue = Volley.newRequestQueue(registerActivity);
 		etLoginEmail = (MyFontEdittextView) loginFragmentView
 				.findViewById(R.id.etLoginEmail);
 		etLoginPassword = (MyFontEdittextView) loginFragmentView
@@ -222,8 +227,10 @@ public class LoginFragment extends BaseRegisterFragment implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN, new PreferenceHelper(
 				registerActivity).getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, AndyConstants.MANUAL);
-		new HttpRequester(registerActivity, map,
-				AndyConstants.ServiceCode.LOGIN, this);
+		// new HttpRequester(registerActivity, map,
+		// AndyConstants.ServiceCode.LOGIN, this);
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
 
 	}
 
@@ -246,9 +253,11 @@ public class LoginFragment extends BaseRegisterFragment implements
 		map.put(AndyConstants.Params.DEVICE_TOKEN, new PreferenceHelper(
 				registerActivity).getDeviceToken());
 		map.put(AndyConstants.Params.LOGIN_BY, loginType);
-		new HttpRequester(registerActivity, map,
-				AndyConstants.ServiceCode.LOGIN, this);
+		// new HttpRequester(registerActivity, map,
+		// AndyConstants.ServiceCode.LOGIN, this);
 
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.LOGIN, this, this));
 	}
 
 	private void getFbProfile() {
@@ -404,6 +413,12 @@ public class LoginFragment extends BaseRegisterFragment implements
 		default:
 			break;
 		}
+
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
 
 	}
 

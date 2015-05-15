@@ -1,12 +1,12 @@
 package com.automated.taxinow.driver.utills;
 
-import com.automated.taxinow.driver.R.string;
-import com.automated.taxinow.driver.db.DBHelper;
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
+
+import com.automated.taxinow.driver.db.DBHelper;
+import com.google.android.gms.maps.model.LatLng;
 
 public class PreferenceHelper {
 
@@ -15,8 +15,8 @@ public class PreferenceHelper {
 	private final String DEVICE_TOKEN = "device_token";
 	private final String SESSION_TOKEN = "session_token";
 	private final String REQUEST_ID = "request_id";
-	private final String WALKER_LATITUDE = "latitude";
-	private final String WALKER_LONGITUDE = "longitude";
+	private final String WALKER_LATITUDE = "walkerlatitude";
+	private final String WALKER_LONGITUDE = "walkerlongitude";
 	private final String PASSWORD = "password";
 	private final String EMAIL = "email";
 	private final String LOGIN_BY = "login_by";
@@ -30,11 +30,69 @@ public class PreferenceHelper {
 	private final String DEST_LAT = "dest_lat";
 	private final String DEST_LNG = "dest_lng";
 	private final String IS_APPROVED = "is_approved";
+	private final String SOUND_AVAILABILITY = "sound_availability";
+	private final String LATITUDE = "latitude";
+	private final String LONGITUDE = "longitude";
+	private final String IS_NAVIGATE = "is_navigate";
+	private final String DIST_LATITUDE = "dist_latitude";
+	private final String DIST_LONGITUDE = "dist_longitude";
 
 	public PreferenceHelper(Context context) {
 		app_prefs = context.getSharedPreferences(AndyConstants.PREF_NAME,
 				Context.MODE_PRIVATE);
 		this.context = context;
+	}
+
+	public void putDestinationLatitude(String latitude) {
+		Editor edit = app_prefs.edit();
+		edit.putString(DIST_LATITUDE, latitude);
+		edit.commit();
+
+	}
+
+	public String getDestinationLatitude() {
+		return app_prefs.getString(DIST_LATITUDE, "");
+	}
+
+	public void putDestinationLongitude(String longitude) {
+		Editor edit = app_prefs.edit();
+		edit.putString(DIST_LONGITUDE, longitude);
+		edit.commit();
+
+	}
+
+	public String getDestinationLongitude() {
+		return app_prefs.getString(DIST_LONGITUDE, "");
+	}
+
+	public boolean isNavigate() {
+		return app_prefs.getBoolean(IS_NAVIGATE, false);
+	}
+
+	public void putIsNavigate(boolean navigate) {
+		Editor edit = app_prefs.edit();
+		edit.putBoolean(IS_NAVIGATE, navigate);
+		edit.commit();
+	}
+
+	public void putLatitude(double latiDouble) {
+		Editor edit = app_prefs.edit();
+		edit.putFloat(LATITUDE, (float) latiDouble);
+		edit.commit();
+	}
+
+	public double getLatitude() {
+		return app_prefs.getFloat(LATITUDE, 0.0f);
+	}
+
+	public void putLongitude(double longiDouble) {
+		Editor edit = app_prefs.edit();
+		edit.putFloat(LONGITUDE, (float) longiDouble);
+		edit.commit();
+	}
+
+	public double getLongitude() {
+		return app_prefs.getFloat(LONGITUDE, 0.0f);
 	}
 
 	public void putIsApproved(String approved) {
@@ -188,6 +246,16 @@ public class PreferenceHelper {
 		return app_prefs.getLong(REQUEST_TIME, AndyConstants.NO_TIME);
 	}
 
+	public void putSoundAvailability(Boolean soundAvailability) {
+		Editor edit = app_prefs.edit();
+		edit.putBoolean(SOUND_AVAILABILITY, soundAvailability);
+		edit.commit();
+	}
+
+	public Boolean getSoundAvailability() {
+		return app_prefs.getBoolean(SOUND_AVAILABILITY, true);
+	}
+
 	public void putPaymentType(int type) {
 		Editor edit = app_prefs.edit();
 		edit.putInt(PAYMENT_TYPE, type);
@@ -226,6 +294,9 @@ public class PreferenceHelper {
 		putIsTripStart(false);
 		putClientDestination(null);
 		putPaymentType(-1);
+		putDestinationLatitude("");
+		putDestinationLongitude("");
+		putIsNavigate(false);
 		// new DBHelper(context).deleteAllLocations();
 	}
 

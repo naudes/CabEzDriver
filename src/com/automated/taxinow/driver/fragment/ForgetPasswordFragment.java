@@ -5,22 +5,26 @@ package com.automated.taxinow.driver.fragment;
 
 import java.util.HashMap;
 
-import com.automated.taxinow.driver.R;
-import com.automated.taxinow.driver.base.BaseRegisterFragment;
-import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
-import com.automated.taxinow.driver.parse.ParseContent;
-import com.automated.taxinow.driver.utills.AndyConstants;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.AppLog;
-import com.automated.taxinow.driver.widget.MyFontEdittextView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.base.BaseRegisterFragment;
+import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
+import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
+import com.automated.taxinow.driver.utills.AndyConstants;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.AppLog;
+import com.automated.taxinow.driver.widget.MyFontEdittextView;
 
 /**
  * @author Kishan H Dhamat
@@ -29,11 +33,13 @@ import android.view.inputmethod.InputMethodManager;
 public class ForgetPasswordFragment extends BaseRegisterFragment implements
 		AsyncTaskCompleteListener {
 	private MyFontEdittextView etEmail;
+	private RequestQueue requestQueue;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		requestQueue = Volley.newRequestQueue(registerActivity);
 		View forgetView = inflater.inflate(R.layout.fragment_forgetpassword,
 				container, false);
 		etEmail = (MyFontEdittextView) forgetView
@@ -84,7 +90,7 @@ public class ForgetPasswordFragment extends BaseRegisterFragment implements
 			}
 			break;
 		case R.id.btnActionNotification:
-			//OnBackPressed();
+			// OnBackPressed();
 			break;
 
 		default:
@@ -100,8 +106,11 @@ public class ForgetPasswordFragment extends BaseRegisterFragment implements
 		map.put(AndyConstants.URL, AndyConstants.ServiceType.FORGET_PASSWORD);
 		map.put(AndyConstants.Params.TYPE, 1 + "");
 		map.put(AndyConstants.Params.EMAIL, etEmail.getText().toString());
-		new HttpRequester(registerActivity, map,
-				AndyConstants.ServiceCode.FORGET_PASSWORD, this);
+		// new HttpRequester(registerActivity, map,
+		// AndyConstants.ServiceCode.FORGET_PASSWORD, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.FORGET_PASSWORD, this, this));
 
 	}
 
@@ -144,5 +153,10 @@ public class ForgetPasswordFragment extends BaseRegisterFragment implements
 		// }
 	}
 
-	
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
+	}
+
 }

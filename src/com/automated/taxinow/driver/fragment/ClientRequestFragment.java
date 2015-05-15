@@ -15,8 +15,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
@@ -25,14 +27,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.automated.taxinow.driver.R;
 import com.automated.taxinow.driver.base.BaseMapFragment;
@@ -40,7 +44,7 @@ import com.automated.taxinow.driver.locationupdate.LocationHelper;
 import com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived;
 import com.automated.taxinow.driver.model.RequestDetail;
 import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
 import com.automated.taxinow.driver.utills.AppLog;
@@ -49,7 +53,6 @@ import com.automated.taxinow.driver.widget.MyFontTextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.internal.gm;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -96,8 +99,11 @@ public class ClientRequestFragment extends BaseMapFragment implements
 	private MapView mMapView;
 	private Bundle mBundle;
 	private MyFontTextView tvApprovedClose;
-	private boolean isApprovedCheck = true;
+	private boolean isApprovedCheck = true, loaded = false;
 	private Dialog mDialog;
+	private SoundPool soundPool;
+	private int soundid;
+	private RequestQueue requestQueue;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,10 +165,20 @@ public class ClientRequestFragment extends BaseMapFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mBundle = savedInstanceState;
+		requestQueue = Volley.newRequestQueue(mapActivity);
 		IntentFilter filter = new IntentFilter(AndyConstants.NEW_REQUEST);
 		requestReciever = new newRequestReciever();
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
 				requestReciever, filter);
+		soundPool = new SoundPool(5, AudioManager.STREAM_ALARM, 100);
+		soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+			@Override
+			public void onLoadComplete(SoundPool soundPool, int sampleId,
+					int status) {
+				loaded = true;
+			}
+		});
+		soundid = soundPool.load(mapActivity, R.raw.beep, 1);
 	}
 
 	private void addMarker() {
@@ -444,6 +460,7 @@ public class ClientRequestFragment extends BaseMapFragment implements
 									R.string.client_location)));
 					seekbarTimer = new SeekbarTimer(
 							requestDetail.getTimeLeft() * 1000, 1000);
+
 					seekbarTimer.start();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -525,9 +542,20 @@ public class ClientRequestFragment extends BaseMapFragment implements
 		@Override
 		public void onTick(long millisUntilFinished) {
 			int time = (int) (millisUntilFinished / 1000);
+
 			if (!isVisible()) {
 				return;
 			}
+			if (preferenceHelper.getSoundAvailability()) {
+				if (time <= 15) {
+					AppLog.Log("ClientRequest Timer Beep", "Beep started");
+					if (loaded) {
+						soundPool.play(soundid, 1, 1, 0, 0, 1);
+					}
+
+				}
+			}
+
 			btnClientReqRemainTime.setText("" + time);
 			// pbTimeLeft.setProgress(time);
 			// if (time <= 5) {
@@ -557,8 +585,11 @@ public class ClientRequestFragment extends BaseMapFragment implements
 				String.valueOf(requestDetail.getRequestId()));
 		map.put(AndyConstants.Params.TOKEN, preferenceHelper.getSessionToken());
 		map.put(AndyConstants.Params.ACCEPTED, String.valueOf(status));
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.RESPOND_REQUEST, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.RESPOND_REQUEST, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.RESPOND_REQUEST, this, this));
 	}
 
 	public void checkRequestStatus() {
@@ -579,8 +610,11 @@ public class ClientRequestFragment extends BaseMapFragment implements
 						+ preferenceHelper.getSessionToken() + "&"
 						+ AndyConstants.Params.REQUEST_ID + "="
 						+ preferenceHelper.getRequestId());
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, true, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.CHECK_REQUEST_STATUS, this, this));
 	}
 
 	public void getAllRequests() {
@@ -596,8 +630,11 @@ public class ClientRequestFragment extends BaseMapFragment implements
 						+ AndyConstants.Params.TOKEN + "="
 						+ preferenceHelper.getSessionToken());
 
-		new HttpRequester(mapActivity, map,
-				AndyConstants.ServiceCode.GET_ALL_REQUEST, true, this);
+		// new HttpRequester(mapActivity, map,
+		// AndyConstants.ServiceCode.GET_ALL_REQUEST, true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.GET_ALL_REQUEST, this, this));
 	}
 
 	private class TimerRequestStatus extends TimerTask {
@@ -750,6 +787,7 @@ public class ClientRequestFragment extends BaseMapFragment implements
 														R.string.client_location)));
 						seekbarTimer = new SeekbarTimer(
 								requestDetail.getTimeLeft() * 1000, 1000);
+
 						seekbarTimer.start();
 						AppLog.Log(TAG, "From broad cast recieved request");
 					}
@@ -768,5 +806,11 @@ public class ClientRequestFragment extends BaseMapFragment implements
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
 	}
 }

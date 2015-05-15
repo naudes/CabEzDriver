@@ -32,7 +32,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.automated.taxinow.driver.gcm.CommonUtilities;
-import com.automated.taxinow.driver.parse.ParseContent;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AppLog;
 import com.automated.taxinow.driver.utills.PreferenceHelper;

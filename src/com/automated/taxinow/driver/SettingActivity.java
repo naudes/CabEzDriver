@@ -4,20 +4,24 @@ import java.util.HashMap;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
-import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
-import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
-import com.automated.taxinow.driver.parse.HttpRequester;
-import com.automated.taxinow.driver.parse.ParseContent;
-import com.automated.taxinow.driver.utills.AndyConstants;
-import com.automated.taxinow.driver.utills.AndyUtils;
-import com.automated.taxinow.driver.utills.AppLog;
-import com.automated.taxinow.driver.utills.PreferenceHelper;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.automated.taxinow.driver.base.ActionBarBaseActivitiy;
+import com.automated.taxinow.driver.parse.AsyncTaskCompleteListener;
+import com.automated.taxinow.driver.parse.ParseContent;
+import com.automated.taxinow.driver.parse.VolleyHttpRequest;
+import com.automated.taxinow.driver.utills.AndyConstants;
+import com.automated.taxinow.driver.utills.AndyUtils;
+import com.automated.taxinow.driver.utills.AppLog;
+import com.automated.taxinow.driver.utills.PreferenceHelper;
 
 /**
  * @author Kishan H Dhamat
@@ -25,9 +29,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class SettingActivity extends ActionBarBaseActivitiy implements
 		OnCheckedChangeListener, AsyncTaskCompleteListener {
-	private Switch switchSetting;
+	private Switch switchSetting, switchSound;
 	private PreferenceHelper preferenceHelper;
 	private ParseContent parseContent;
+	private RequestQueue requestQueue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +40,17 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 		setContentView(R.layout.activity_setting);
 		preferenceHelper = new PreferenceHelper(this);
 		parseContent = new ParseContent(this);
+		requestQueue = Volley.newRequestQueue(this);
 		switchSetting = (Switch) findViewById(R.id.switchAvaibility);
+		switchSound = (Switch) findViewById(R.id.switchSound);
 		setActionBarTitle(getString(R.string.text_setting));
 		setActionBarIcon(R.drawable.promotion);
 		// getSupportActionBar().setTitle(
 		// getResources().getString(R.string.text_setting));
 		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		// getSupportActionBar().setHomeButtonEnabled(true);
+		switchSound.setChecked(preferenceHelper.getSoundAvailability());
+		switchSound.setOnCheckedChangeListener(this);
 		checkState();
 	}
 
@@ -60,8 +69,11 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 						+ "=" + preferenceHelper.getUserId() + "&"
 						+ AndyConstants.Params.TOKEN + "="
 						+ preferenceHelper.getSessionToken());
-		new HttpRequester(this, map, AndyConstants.ServiceCode.CHECK_STATE,
-				true, this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.CHECK_STATE,
+		// true, this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.GET, map,
+				AndyConstants.ServiceCode.CHECK_STATE, this, this));
 	}
 
 	private void changeState() {
@@ -80,8 +92,11 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 		map.put(AndyConstants.Params.ID, preferenceHelper.getUserId());
 		map.put(AndyConstants.Params.TOKEN, preferenceHelper.getSessionToken());
 
-		new HttpRequester(this, map, AndyConstants.ServiceCode.TOGGLE_STATE,
-				this);
+		// new HttpRequester(this, map, AndyConstants.ServiceCode.TOGGLE_STATE,
+		// this);
+
+		requestQueue.add(new VolleyHttpRequest(Method.POST, map,
+				AndyConstants.ServiceCode.TOGGLE_STATE, this, this));
 
 	}
 
@@ -107,6 +122,12 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 			changeState();
 			break;
 
+		case R.id.switchSound:
+			AppLog.Log("Setting Activity Sound switch",
+					"" + switchSound.isChecked());
+			preferenceHelper.putSoundAvailability(switchSound.isChecked());
+
+			break;
 		default:
 			break;
 		}
@@ -155,5 +176,11 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 			break;
 		}
 
+	}
+
+	@Override
+	public void onErrorResponse(VolleyError error) {
+		// TODO Auto-generated method stub
+		AppLog.Log("TAG", error.getMessage());
 	}
 }
