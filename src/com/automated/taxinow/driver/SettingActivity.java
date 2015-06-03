@@ -51,7 +51,15 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 		// getSupportActionBar().setHomeButtonEnabled(true);
 		switchSound.setChecked(preferenceHelper.getSoundAvailability());
 		switchSound.setOnCheckedChangeListener(this);
-		checkState();
+
+		if (preferenceHelper.getDriverOffline()) {
+
+			changeState();
+		} else {
+
+			checkState();
+		}
+
 	}
 
 	private void checkState() {
@@ -139,6 +147,9 @@ public class SettingActivity extends ActionBarBaseActivitiy implements
 		switch (serviceCode) {
 		case AndyConstants.ServiceCode.CHECK_STATE:
 		case AndyConstants.ServiceCode.TOGGLE_STATE:
+
+			preferenceHelper.putIsActive(false);
+			preferenceHelper.putDriverOffline(false);
 			if (!parseContent.isSuccess(response)) {
 				return;
 			}

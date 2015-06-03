@@ -21,7 +21,6 @@ import com.automated.taxinow.driver.utills.AppLog;
 import com.automated.taxinow.driver.utills.PreferenceHelper;
 import com.automated.taxinow.driver.widget.MyFontTextView;
 
-
 public class MainActivity extends Activity implements OnClickListener {
 
 	private boolean isRecieverRegister = false;
@@ -75,11 +74,12 @@ public class MainActivity extends Activity implements OnClickListener {
 					int resultCode = bundle.getInt(CommonUtilities.RESULT);
 					AppLog.Log(TAG, "Result code-----> " + resultCode);
 					if (resultCode == Activity.RESULT_OK) {
-
+						setResultCode(Activity.RESULT_OK);
 					} else {
 						Toast.makeText(MainActivity.this,
 								getString(R.string.register_gcm_failed),
 								Toast.LENGTH_SHORT).show();
+						setResultCode(Activity.RESULT_CANCELED);
 						finish();
 					}
 

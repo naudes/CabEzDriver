@@ -25,6 +25,8 @@ public class AndyConstants {
 	public static final String GOOGLE_API_SCOPE_URL = "https://www.googleapis.com/auth/plus.login";
 	public static final long DELAY = 0;
 	public static final long TIME_SCHEDULE = 10 * 1000;
+	public static final long DELAY_OFFLINE = 15 * 60 * 1000;
+	public static final long TIME_SCHEDULE_OFFLINE = 15 * 60 * 1000;
 
 	public static final int IS_ASSIGNED = 0;
 	public static final int IS_WALKER_STARTED = 1;

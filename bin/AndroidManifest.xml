@@ -32,6 +32,8 @@
         android:name="com.automated.taxinow.driver.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
+    <uses-permission android:name="android.permission.STATUS_BAR_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -113,6 +115,7 @@
                 <category android:name="com.automated.taxinow.driver" />
             </intent-filter>
         </receiver>
+        <receiver android:name="com.automated.taxinow.driver.MyReceiver" />
     </application>
 
 </manifest>

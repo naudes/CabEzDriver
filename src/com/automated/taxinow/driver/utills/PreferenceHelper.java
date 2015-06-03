@@ -36,6 +36,8 @@ public class PreferenceHelper {
 	private final String IS_NAVIGATE = "is_navigate";
 	private final String DIST_LATITUDE = "dist_latitude";
 	private final String DIST_LONGITUDE = "dist_longitude";
+	private final String IS_OFFLINE = "is_offline";
+	private final String IS_ACTIVE = "is_active";
 
 	public PreferenceHelper(Context context) {
 		app_prefs = context.getSharedPreferences(AndyConstants.PREF_NAME,
@@ -72,6 +74,26 @@ public class PreferenceHelper {
 	public void putIsNavigate(boolean navigate) {
 		Editor edit = app_prefs.edit();
 		edit.putBoolean(IS_NAVIGATE, navigate);
+		edit.commit();
+	}
+
+	public boolean getDriverOffline() {
+		return app_prefs.getBoolean(IS_OFFLINE, false);
+	}
+
+	public void putDriverOffline(boolean offline) {
+		Editor edit = app_prefs.edit();
+		edit.putBoolean(IS_OFFLINE, offline);
+		edit.commit();
+	}
+
+	public boolean getIsActive() {
+		return app_prefs.getBoolean(IS_ACTIVE, false);
+	}
+
+	public void putIsActive(boolean isActive) {
+		Editor edit = app_prefs.edit();
+		edit.putBoolean(IS_ACTIVE, isActive);
 		edit.commit();
 	}
 

@@ -29,6 +29,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.automated.taxinow.driver.gcm.CommonUtilities;
@@ -86,48 +87,51 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// String messageBedge = intent.getExtras().getString("bedge");
 		CommonUtilities.displayMessage(context, message);
 		// notifies user
-		try {
-			JSONObject jsonObject = new JSONObject(team);
-			preferenceHelper = new PreferenceHelper(context);
-			if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 1) {
-				generateNewNotification(context, message);
-			} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 2) {
-				preferenceHelper.clearRequestData();
-				Intent i = new Intent("CANCEL_REQUEST");
-				context.sendBroadcast(i);
-				generateNewNotification(context, message);
-			} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 3) {
-				preferenceHelper.putPaymentType(jsonObject.getJSONObject(
-						"owner_data").getInt("payment_type"));
-				Intent i = new Intent("PAYMENT_MODE");
-				context.sendBroadcast(i);
-			} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 5) {
+		if (!TextUtils.isEmpty(message)) {
 
-				preferenceHelper.putIsApproved(jsonObject
-						.getString(AndyConstants.Params.IS_APPROVED));
-				Intent i = new Intent("IS_APPROVED");
-				generateNewNotification(context, message);
-				context.sendBroadcast(i);
+			try {
+				JSONObject jsonObject = new JSONObject(team);
+				preferenceHelper = new PreferenceHelper(context);
+				if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 1) {
+					generateNewNotification(context, message);
+				} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 2) {
+					preferenceHelper.clearRequestData();
+					Intent i = new Intent("CANCEL_REQUEST");
+					context.sendBroadcast(i);
+					generateNewNotification(context, message);
+				} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 3) {
+					preferenceHelper.putPaymentType(jsonObject.getJSONObject(
+							"owner_data").getInt("payment_type"));
+					Intent i = new Intent("PAYMENT_MODE");
+					context.sendBroadcast(i);
+				} else if (jsonObject.getInt(AndyConstants.Params.UNIQUE_ID) == 5) {
 
-			} else {
-				JSONObject ownerObject = jsonObject.getJSONObject(
-						"request_data").getJSONObject("owner");
-				try {
-					if (ownerObject.getString("dest_latitude").length() != 0) {
-						LatLng destLatLng = new LatLng(
-								ownerObject.getDouble("dest_latitude"),
-								ownerObject.getDouble("dest_longitude"));
-						preferenceHelper.putClientDestination(destLatLng);
+					preferenceHelper.putIsApproved(jsonObject
+							.getString(AndyConstants.Params.IS_APPROVED));
+					Intent i = new Intent("IS_APPROVED");
+					generateNewNotification(context, message);
+					context.sendBroadcast(i);
 
-						Intent i = new Intent("CLIENT_DESTINATION");
-						context.sendBroadcast(i);
+				} else {
+					JSONObject ownerObject = jsonObject.getJSONObject(
+							"request_data").getJSONObject("owner");
+					try {
+						if (ownerObject.getString("dest_latitude").length() != 0) {
+							LatLng destLatLng = new LatLng(
+									ownerObject.getDouble("dest_latitude"),
+									ownerObject.getDouble("dest_longitude"));
+							preferenceHelper.putClientDestination(destLatLng);
+
+							Intent i = new Intent("CLIENT_DESTINATION");
+							context.sendBroadcast(i);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		LocalBroadcastManager.getInstance(context).sendBroadcast(pushIntent);
 	}

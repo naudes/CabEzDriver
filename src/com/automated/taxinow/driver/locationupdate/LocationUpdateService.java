@@ -2,6 +2,8 @@ package com.automated.taxinow.driver.locationupdate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -17,12 +19,18 @@ import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.webkit.JsPromptResult;
 
 import com.automated.taxinow.driver.MapActivity;
+import com.automated.taxinow.driver.MyReceiver;
+import com.automated.taxinow.driver.R;
+import com.automated.taxinow.driver.SettingActivity;
 import com.automated.taxinow.driver.locationupdate.LocationHelper.OnLocationReceived;
 import com.automated.taxinow.driver.utills.AndyConstants;
 import com.automated.taxinow.driver.utills.AndyUtils;
@@ -35,6 +43,9 @@ public class LocationUpdateService extends IntentService implements
 	private PreferenceHelper preferenceHelper;
 	private LocationHelper locationHelper;
 	private String id, token, latitude, longitude;
+	private static Timer timer;
+	private LatLng latlngPrevious, latlngCurrent;
+	private static boolean isNoRequest;
 
 	public LocationUpdateService() {
 		this("MySendLocationService");
@@ -65,6 +76,81 @@ public class LocationUpdateService extends IntentService implements
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+	}
+
+	{
+
+		if (timer == null) {
+			timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerRequestStatus(),
+					AndyConstants.DELAY_OFFLINE,
+					AndyConstants.TIME_SCHEDULE_OFFLINE);
+
+		}
+
+	}
+
+	private class TimerRequestStatus extends TimerTask {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+
+			if (latlngCurrent != null && latlngPrevious != null) {
+
+				Location locationCurrent = new Location("");
+				Location locationPrevious = new Location("");
+				locationCurrent.setLatitude(latlngCurrent.latitude);
+				locationCurrent.setLongitude(latlngCurrent.longitude);
+				locationPrevious.setLatitude(latlngPrevious.latitude);
+				locationPrevious.setLongitude(latlngPrevious.longitude);
+				if (locationCurrent.distanceTo(locationPrevious) <= 20) {
+					latlngPrevious = new LatLng(latlngCurrent.latitude,
+							latlngCurrent.longitude);
+					AppLog.Log("Check isActive State",
+							"" + preferenceHelper.getIsActive());
+					if (isNoRequest && preferenceHelper.getIsActive()) {
+						generateNotification();
+
+					}
+
+				}
+			}
+
+		}
+
+	}
+
+	public void generateNotification() {
+		Intent offlineIntent = new Intent(this, MyReceiver.class);
+		offlineIntent.setAction("Go Offline");
+		
+		Intent cancelIntent = new Intent(this, MyReceiver.class);
+		cancelIntent.setAction("Go Offline");
+
+		Intent mainIntent = new Intent(this, SettingActivity.class);
+
+		PendingIntent mainPIntent = PendingIntent.getActivity(this, 0,
+				mainIntent, 0);
+
+		PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, offlineIntent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pCancelIntent = PendingIntent.getBroadcast(this, 0,
+				cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		Notification noti = new Notification.Builder(this)
+				.setContentTitle(getResources().getString(R.string.app_name))
+				.setContentText("Do you want to go offline?")
+				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
+				.setContentIntent(mainPIntent)
+				.addAction(0, "Go Offline", pIntent)
+				.addAction(0, "Cancel", pCancelIntent).build();
+
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+		notificationManager.notify(0, noti);
+
 	}
 
 	@Override
@@ -84,6 +170,10 @@ public class LocationUpdateService extends IntentService implements
 					.putWalkerLatitude(String.valueOf(latlong.latitude));
 			preferenceHelper.putWalkerLongitude(String
 					.valueOf(latlong.longitude));
+			latlngCurrent = new LatLng(latlong.latitude, latlong.longitude);
+			if (latlngPrevious == null) {
+				latlngPrevious = new LatLng(latlong.latitude, latlong.longitude);
+			}
 		}
 		if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(token)
 				&& latlong != null) {
@@ -98,11 +188,15 @@ public class LocationUpdateService extends IntentService implements
 			}
 
 			if (preferenceHelper.getRequestId() == AndyConstants.NO_REQUEST) {
+
+				isNoRequest = true;
 				new UploadDataToServer().execute();
 			} else {
+				isNoRequest = false;
 				new UploadTripLocationData().execute();
 			}
 		}
+
 	}
 
 	private class UploadDataToServer extends AsyncTask<String, String, String> {
@@ -140,6 +234,14 @@ public class LocationUpdateService extends IntentService implements
 				// AndyConstants.ServiceType.UPDATE_PROVIDER_LOCATION,
 				// nameValuePairs);
 				AppLog.Log("TAG", "location send Response:::" + response);
+
+				JSONObject jsonObject = new JSONObject(response);
+				if (jsonObject.getBoolean("success")) {
+					if (jsonObject.getString("is_active").equals("1"))
+						preferenceHelper.putIsActive(true);
+					else
+						preferenceHelper.putIsActive(false);
+				}
 
 				return response;
 			} catch (Exception exception) {
