@@ -17,7 +17,7 @@
         android:inputType="textEmailAddress"
         android:singleLine="true" />
 
-    <com.automated.taxinow.driver.widget.MyFontTextView
+    <com.overthere.express.widget.MyFontTextView
         android:id="@+id/btnPaymentSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

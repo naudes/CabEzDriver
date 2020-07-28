@@ -26,16 +26,25 @@
             android:layout_marginRight="@dimen/activity_margin_register"
             android:layout_marginTop="@dimen/activity_margin_register"
             android:background="@drawable/navigation"
-            android:visibility="visible" />
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/btnMyLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ub_textsize_huge"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ub_button_mylocation"/>
+
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvJobTime"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1.5"
@@ -44,7 +53,7 @@
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="0 MINS"
+            android:text="0 '"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_app_gray" />
 
@@ -55,17 +64,16 @@
             android:background="@null"
             android:src="@drawable/line_divider" />
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvJobDistance"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_history_margin_top"
-            android:layout_weight="1.5"
+            android:layout_weight="1.6"
             android:drawablePadding="@dimen/feedback_padding"
             android:drawableTop="@drawable/miles"
             android:gravity="center"
-            android:text="0"
-            android:textAllCaps="true"
+            android:text="0 km"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_app_gray" />
 
@@ -75,23 +83,46 @@
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:src="@drawable/line_divider" />
-
-        <com.automated.taxinow.driver.widget.MyFontTextView
-            android:id="@+id/tvPaymentType"
-            android:layout_width="0dp"
+        <com.overthere.express.widget.MyFontTextView
+            android:id="@+id/tvReward"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_weight="1.5"
             android:drawablePadding="@dimen/feedback_padding"
-            android:drawableTop="@drawable/payment"
+
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="CASH"
+            android:drawableTop="@drawable/payment"
+            android:text="$0"
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_app_gray" />
+        <!--android:drawableTop="@drawable/payment"-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:src="@drawable/line_divider" />
 
+        <com.overthere.express.widget.MyFontTextView
+            android:id="@+id/tvPaymentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1.5"
+            android:drawablePadding="@dimen/feedback_padding"
+
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text=""
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/color_app_gray" />
+        <!--android:drawableTop="@drawable/payment"-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,26 +131,25 @@
             android:src="@drawable/line_divider" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.6" >
+            android:layout_weight="1.2" >
 
-            <com.automated.taxinow.driver.widget.MyFontTextView
+            <ImageButton
                 android:id="@+id/tvJobCallClient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:drawableLeft="@drawable/call_user"
-                android:drawablePadding="@dimen/feedback_padding"
-                android:gravity="center_vertical"
-                android:text="@string/text_call"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:src="@drawable/call_user"
+                android:gravity="center"
                 android:textColor="@color/color_blue" />
         </LinearLayout>
     </LinearLayout>
 
-    <com.automated.taxinow.driver.widget.MyFontTextView
+    <com.overthere.express.widget.MyFontTextView
         android:id="@+id/tvJobStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

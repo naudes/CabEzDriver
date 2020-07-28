@@ -34,7 +34,7 @@
     <dimen name="dimen_history_image_height">60dp</dimen>
     <dimen name="dimen_history_text_margin_left">5dp</dimen>
     <dimen name="dimen_history_image_width">60dp</dimen>
-    <dimen name="dimen_history_image_padding">20dp</dimen>
+    <dimen name="dimen_history_image_padding">10dp</dimen>
     <dimen name="dimen_history_padding">2dp</dimen>
     <dimen name="dimen_history_one">10dp</dimen>
     <dimen name="history_text_size">20sp</dimen>
@@ -67,7 +67,7 @@
     <dimen name="feedback_margin_one">15dp</dimen>
     <dimen name="feedback_margin_two">25dp</dimen>
     <dimen name="feedback_margin_three">15dp</dimen>
-    <dimen name="feedback_text_size">15sp</dimen>
+    <dimen name="feedback_text_size">18sp</dimen>
 
     <!-- Newly Added for Bill Layout -->
 
@@ -108,5 +108,6 @@
     <!-- Newly Added for Cutstome ActionBar -->
     <dimen name="ab_text_size">17dp</dimen>
     <dimen name="map_margin_bottom">60dp</dimen>
+    <dimen name="font_size_popup_big">15sp</dimen>
 
 </resources>

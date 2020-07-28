@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CircularImageView_user/CircularImageView_user.iml" filepath="$PROJECT_DIR$/CircularImageView_user/CircularImageView_user.iml" group="OverThere-Nov/CircularImageView_user" />
+      <module fileurl="file://$PROJECT_DIR$/OverThere-Nov.iml" filepath="$PROJECT_DIR$/OverThere-Nov.iml" group="OverThere-Nov" />
+      <module fileurl="file://$PROJECT_DIR$/stripe/StripePay.iml" filepath="$PROJECT_DIR$/stripe/StripePay.iml" group="OverThere-Nov/StripePay" />
+      <module fileurl="file://$PROJECT_DIR$/cropLibrary/cropLibrary.iml" filepath="$PROJECT_DIR$/cropLibrary/cropLibrary.iml" group="OverThere-Nov/cropLibrary" />
+      <module fileurl="file://$PROJECT_DIR$/keyeventcompat/keyeventcompat.iml" filepath="$PROJECT_DIR$/keyeventcompat/keyeventcompat.iml" group="OverThere-Nov/keyeventcompat" />
+      <module fileurl="file://$PROJECT_DIR$/xlibrary/xlibrary.iml" filepath="$PROJECT_DIR$/xlibrary/xlibrary.iml" group="OverThere-Nov/xlibrary" />
+    </modules>
+  </component>
+</project>

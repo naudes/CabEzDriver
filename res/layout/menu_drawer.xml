@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cover_image" />
 
-            <com.automated.taxinow.driver.widget.MyFontTextViewDrawer
+            <com.overthere.express.widget.MyFontTextViewDrawer
                 android:id="@+id/tvMenuName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" >
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <com.mikhaellopez.circularimageview.CircleImageView
                 android:id="@+id/ivMenuProfile"
                 android:layout_width="@dimen/menu_img_width"
                 android:layout_height="@dimen/menu_img_height"
@@ -53,13 +53,6 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <!-- <ListView -->
-    <!-- android:id="@+id/left_drawer" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="match_parent" -->
-    <!-- android:layout_gravity="start" -->
-    <!-- android:choiceMode="singleChoice" -->
-    <!-- android:divider="@drawable/nav_divider_line" -->
-    <!-- android:dividerHeight="1dp" /> -->
+
 
 </LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical" >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="@string/text_service_type"
+            android:textStyle="normal"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/serviceType"
+            style="?android:attr/spinnerItemStyle"
+            android:layout_width="@dimen/ub_service_type_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="@dimen/ub_textsize_search_big" >
+            <requestFocus />
+        </Spinner>
+
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+
+        android:gravity="bottom|end"
+        android:orientation="horizontal" >
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnCancelRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:text="@string/text_cancel"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnSendRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:text="@string/text_submit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+    </LinearLayout>
+
+</LinearLayout>

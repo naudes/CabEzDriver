@@ -1,0 +1,5 @@
+include ':CircularImageView_user', ':StripePay'
+include ':cropLibrary'
+project(':StripePay').projectDir = new File('stripe')
+include ':xlibrary'
+include ':keyeventcompat'

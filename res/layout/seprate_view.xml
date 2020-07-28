@@ -12,7 +12,7 @@
         android:layout_weight="1.0"
         android:background="@drawable/black_dot" />
 
-    <com.automated.taxinow.driver.widget.MyFontTextView
+    <com.overthere.express.widget.MyFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

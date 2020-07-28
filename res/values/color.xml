@@ -24,6 +24,7 @@
     <color name="color_section_heading">#A4A18E</color>
     <color name="color_checkbox">#807C6F</color>
     <color name="color_title_text">#555249</color>
+    <color name="color_text">#ff9d3d</color>
     <color name="color_light_yellow">#66635a</color>
     <color name="color_view_text">#555555</color>
     <color name="color_btn_back">#9A9484</color>
@@ -47,5 +48,5 @@
     <color name="color_text_menu">#7c7c7c</color>
     <color name="color_hint_light">#cdcdcd</color>
     <color name="color_text_dark">#676767</color>
-
+    <color name="color_light_green">#d7ffa2</color>
 </resources>

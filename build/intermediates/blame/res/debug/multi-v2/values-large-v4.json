@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Public\\OverThere-Nov\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Jack\\.gradle\\caches\\transforms-2\\files-2.1\\2c55aaa56b300493199139f0100416df\\appcompat-1.0.2\\res\\values-large-v4\\values-large-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,185,256,326,396,464,532,636",
+                        "endColumns": "58,70,70,69,69,67,67,103,115",
+                        "endOffsets": "109,180,251,321,391,459,527,631,747"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,185,256,326,396,464,635,739",
+                        "endColumns": "58,70,70,69,69,67,67,103,115",
+                        "endOffsets": "109,180,251,321,391,459,527,734,850"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jack\\.gradle\\caches\\transforms-2\\files-2.1\\09ef92786d56297bb9311341af0b1647\\android-switch-backport-1.4.0\\res\\values-large-v4\\values.xml",
+                    "from": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "180",
+                        "endColumns": "54",
+                        "endOffsets": "230"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "580",
+                        "endColumns": "54",
+                        "endOffsets": "630"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Public\\OverThere-Nov\\cropLibrary\\build\\intermediates\\packaged_res\\debug\\values-large-v4\\values-large-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "47",
+                        "endOffsets": "98"
+                    },
+                    "to": {
+                        "startLines": "9",
+                        "startColumns": "4",
+                        "startOffsets": "532",
+                        "endColumns": "47",
+                        "endOffsets": "575"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jack\\.gradle\\caches\\transforms-2\\files-2.1\\353cc569cf5ec4e29e9657002173d51e\\material-1.0.0\\res\\values-large-v4\\values-large-v4.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,177",
+                        "endColumns": "121,133",
+                        "endOffsets": "172,306"
+                    },
+                    "to": {
+                        "startLines": "13,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "855,977",
+                        "endColumns": "121,133",
+                        "endOffsets": "972,1106"
+                    }
+                }
+            ]
+        }
+    ]
+}

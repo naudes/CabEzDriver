@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="viewPageIndicator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/viewPageIndicator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

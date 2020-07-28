@@ -1,0 +1,4 @@
+com.mikhaellopez.circularimageview
+attr border_color
+attr border_width
+styleable CircleImageView border_color border_width

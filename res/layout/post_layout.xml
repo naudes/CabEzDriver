@@ -1,0 +1,153 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bill_trans">
+
+
+    <ImageView
+        android:id="@+id/ivEmptyPost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:gravity="center"
+        android:src="@drawable/no_items"></ImageView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_pickup_area"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_pickup_time"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+
+                </LinearLayout>
+
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvPosition"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_dropoff_area"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="bottom" >
+
+        <com.overthere.express.widget.MyFontButton
+            android:id="@+id/btnEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="@string/text_edit_save"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

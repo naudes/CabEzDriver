@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:background="@drawable/dialog_window_rounded"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_name"
+        android:gravity="center"
+        android:text="@string/text_select_overhere"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:src="@drawable/time" />
+        <Spinner
+            android:id="@+id/pickupdate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@null"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+        </Spinner>
+
+        <Button
+            android:id="@+id/btnTimePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textStyle=""
+            android:gravity="center"
+            android:background="@null"
+            android:text="Pickup Time"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <AutoCompleteTextView
+            android:id="@+id/etPickupAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="2dp"
+            android:hint="PICK UP ADDRESS"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:dropDownWidth="match_parent"
+            android:textSize="@dimen/ub_textsize_search_big" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+        <ImageButton
+            android:id="@+id/imgClearPickup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/dimen_fp_margin"
+            android:src="@drawable/close_button"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <AutoCompleteTextView
+            android:id="@+id/etDropOffAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="2dp"
+            android:hint="DROP OFF ADDRESS"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:dropDownWidth="match_parent"
+            android:textSize="@dimen/ub_textsize_search_big" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+        <ImageButton
+            android:id="@+id/imgClearDropoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/dimen_fp_margin"
+            android:src="@drawable/close_button"
+            android:visibility="visible" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/call_user" />
+        <AutoCompleteTextView
+            android:id="@+id/cphone"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="Customer Phone Number"
+            android:visibility="visible"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:paddingLeft="5dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_big" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/pin_driver" />
+
+        <Spinner
+            android:id="@+id/servicetype"
+            android:layout_width="0sp"
+            android:layout_weight="0.6"
+            android:gravity="center"
+            android:background="@null"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+        </Spinner>
+        <AutoCompleteTextView
+            android:id="@+id/servicereward"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:background="@null"
+            android:hint="$REWARD"
+            android:visibility="invisible"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_big" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnCancelRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:gravity="center"
+            android:text="@string/text_cancel"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnSendRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:gravity="center"
+            android:text="@string/text_request"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+    </LinearLayout>
+
+</LinearLayout>

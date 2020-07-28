@@ -29,7 +29,7 @@
             android:src="@drawable/selected_service" />
     </RelativeLayout>
 
-    <com.automated.taxinow.driver.widget.MyFontTextView
+    <com.overthere.express.widget.MyFontTextView
         android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

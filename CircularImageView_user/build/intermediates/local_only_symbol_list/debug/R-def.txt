@@ -1,0 +1,5 @@
+R_DEF: Internal format may change without notice
+local
+attr? border_color
+attr? border_width
+styleable CircleImageView border_width border_color

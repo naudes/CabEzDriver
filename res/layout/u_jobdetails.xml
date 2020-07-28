@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:background="@drawable/dialog_window_rounded"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_name"
+        android:gravity="center"
+        android:text="@string/text_jobdetails"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <AutoCompleteTextView
+            android:id="@+id/tvReward"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/payment"
+            android:drawablePadding="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <AutoCompleteTextView
+            android:id="@+id/tvJobtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/info"
+            android:drawablePadding="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <AutoCompleteTextView
+            android:id="@+id/tvPickupAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/pin_client"
+            android:drawablePadding="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/source_fill_box"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+        <AutoCompleteTextView
+            android:id="@+id/tvDropOffAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@null"
+            android:drawableLeft="@drawable/pin_client_destination"
+            android:drawablePadding="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ub_textsize_search_small" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnCancelJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:gravity="center"
+            android:text="@string/text_cancel"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+
+        <com.overthere.express.component.MyFontButton
+            android:id="@+id/btnAcceptJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_small"
+            android:gravity="center"
+            android:text="Accept"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_popup_big" />
+    </LinearLayout>
+</LinearLayout>

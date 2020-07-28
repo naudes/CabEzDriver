@@ -28,7 +28,7 @@
                 android:src="@drawable/ic_launcher"
                 android:visibility="visible" />
 
-            <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+            <com.overthere.express.widget.MyFontTextViewTitle
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="@color/color_blue"
                 android:visibility="visible" />
 
-            <com.automated.taxinow.driver.widget.MyFontButton
+            <com.overthere.express.widget.MyFontButton
                 android:id="@+id/btnActionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

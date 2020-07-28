@@ -6,7 +6,7 @@
     android:gravity="left"
     android:orientation="vertical" >
 
-    <com.automated.taxinow.driver.widget.MyFontTextView
+    <com.overthere.express.widget.MyFontTextView
         android:id="@+id/tvDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

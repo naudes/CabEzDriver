@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical" >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="@string/text_service_type"
+            android:textStyle="normal"
+            android:textColor="@color/color_blue"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/serviceType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:hint="@string/text_service_type"
+            android:textColor="@color/color_blue"
+            android:textStyle="normal"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_register"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.5"
+                android:text="@string/text_rego_number"
+                android:textColor="@color/color_blue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <AutoCompleteTextView
+                android:id="@+id/regoNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:drawablePadding="2dp"
+                android:hint="Rego Number"
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions"
+                android:paddingLeft="1dp"
+                android:paddingRight="2dp"
+                android:singleLine="true"
+                android:gravity="center"
+                android:textColor="@color/color_blue"
+                android:dropDownWidth="match_parent"
+                android:textSize="@dimen/ub_textsize_search_big">
+
+                <requestFocus />
+            </AutoCompleteTextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/text_vehicle_type"
+                android:textColor="@color/color_blue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Spinner
+                android:id="@+id/vehicleType"
+                style="?android:attr/spinnerItemStyle"
+                android:layout_width="@dimen/ub_service_type_width"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_blue"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/ub_textsize_search_big" >
+                <requestFocus />
+            </Spinner>
+
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_register"
+            android:background="@drawable/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/text_load_length"
+                android:textColor="@color/color_blue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Spinner
+                android:id="@+id/loadLength"
+                style="?android:attr/spinnerItemStyle"
+                android:layout_width="@dimen/ub_service_type_width"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_blue"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/ub_textsize_search_big" >
+                <requestFocus />
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/text_load_weight"
+                android:textColor="@color/color_blue"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Spinner
+                android:id="@+id/loadWeight"
+                style="?android:attr/spinnerItemStyle"
+                android:layout_width="@dimen/ub_service_type_width"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_blue"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/ub_textsize_search_big" >
+                <requestFocus />
+            </Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/include_buttons_bottom"></include>
+
+</LinearLayout>

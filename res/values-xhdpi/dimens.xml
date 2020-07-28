@@ -64,7 +64,7 @@
     <dimen name="feedback_margin_one">15dp</dimen>
     <dimen name="feedback_margin_two">25dp</dimen>
     <dimen name="feedback_margin_three">15dp</dimen>
-    <dimen name="feedback_text_size">15sp</dimen>
+    <dimen name="feedback_text_size">20sp</dimen>
 
     <!-- Newly Added for Job fragment -->
     <dimen name="dimen_job_margin_minus">-10dp</dimen>
@@ -112,5 +112,7 @@
     <!-- Newly Added for Cutstome ActionBar -->
     <dimen name="ab_text_size">19dp</dimen>
     <dimen name="map_margin_bottom">60dp</dimen>
+    <dimen name="font_size_popup_big">16sp</dimen>
+
 
 </resources>

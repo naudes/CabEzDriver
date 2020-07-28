@@ -1,0 +1,271 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bill_trans"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_top_minus"
+            android:background="@drawable/bg_bill"
+            android:gravity="center_horizontal" >
+
+            <com.overthere.express.widget.MyFontTextViewTitle
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="33.5dp"
+                android:drawableTop="@drawable/bill_paper"
+                android:text="@string/text_booking"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_invoice_text" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvPkupAreaText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_pickup_area"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+                    <com.overthere.express.widget.MyFontTextViewBold
+                        android:id="@+id/tvPkupArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                        android:gravity="center"
+                        android:text="Unkown Area"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/invoice_base_price_small" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvTimeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_pickup_time"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+                    <com.overthere.express.widget.MyFontTextViewTitle
+                        android:id="@+id/tvPkTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                        android:gravity="center"
+                        android:text="60.00"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/invoice_base_price_small" />
+                </LinearLayout>
+
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvDfAreaText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_dropoff_area"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/invoice_base_price_small"
+                        android:textStyle="bold" />
+
+
+                    <com.overthere.express.widget.MyFontTextViewBold
+                        android:id="@+id/tvDfArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                        android:gravity="center"
+                        android:text="Unkown Area"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/invoice_base_price_small" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" />
+
+                <!--LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_margin_one"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dimen_bill_padding_one"
+                    android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                    <com.overthere.express.widget.MyFontTextView
+                        android:id="@+id/tvBkFareText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_two"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/text_booking_fare"
+                        android:textColor="@color/color_app_gray"
+                        android:textSize="@dimen/dimen_invoice_baseprice"
+                        android:textStyle="bold" />
+
+
+                    <com.overthere.express.widget.MyFontTextViewTitle
+                        android:id="@+id/tvBkFare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                        android:gravity="center"
+                        android:text="0.00"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/invoice_price_font" />
+                </LinearLayout-->
+
+
+
+                <!--ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_register"
+                    android:background="@drawable/line" /-->
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:text="" ></TextView>
+
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical" >
+
+        <com.overthere.express.widget.MyFontButton
+            android:id="@+id/btnBookingApply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="@string/text_apply"
+            android:textColor="@color/white" />
+    </LinearLayout>
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:text="" ></TextView>
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:text="" ></TextView>
+
+    </TableRow>
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:text="" ></TextView>
+
+    </TableRow>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="bottom" >
+
+        <com.overthere.express.widget.MyFontButton
+            android:id="@+id/btnBookingDialogClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bill"
+            android:text="@string/text_close"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

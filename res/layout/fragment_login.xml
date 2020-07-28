@@ -22,32 +22,11 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/activity_vertical_margin" >
 
-            <ImageButton
-                android:id="@+id/btnLoginFb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@null"
-                android:src="@drawable/btn_facebook" />
-
-            <ImageButton
-                android:id="@+id/btnLoginGplus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/btn_google" />
         </LinearLayout>
 
         <!-- <include layout="@layout/ub__view" /> -->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:src="@drawable/or" />
-
-        <com.automated.taxinow.driver.widget.MyFontEdittextView
+        <com.overthere.express.widget.MyFontEdittextView
             android:id="@+id/etLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +41,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/color_text_dark" />
 
-        <com.automated.taxinow.driver.widget.MyFontEdittextView
+        <com.overthere.express.widget.MyFontEdittextView
             android:id="@+id/etLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +58,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/color_text_dark" />
 
-        <com.automated.taxinow.driver.widget.MyFontButton
+        <com.overthere.express.widget.MyFontButton
             android:id="@+id/tvLoginForgetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +69,7 @@
             android:textColor="@color/color_blue" />
     </LinearLayout>
 
-    <com.automated.taxinow.driver.widget.MyFontButton
+    <com.overthere.express.widget.MyFontButton
         android:id="@+id/tvLoginSignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

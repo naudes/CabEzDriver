@@ -1,0 +1,46 @@
+Applications Memory Usage (kB):
+Uptime: 5089683 Realtime: 5089683
+
+** MEMINFO in pid 19062 [com.overthere.express] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap     2455     1900        0        0    17664    15805     1858
+  Dalvik Heap     1984     1948        0        0     2187     1859      328
+ Dalvik Other      565      564        0        0                           
+        Stack      260      260        0        0                           
+    Other dev        4        0        4        0                           
+     .so mmap      464       68      168        0                           
+    .apk mmap      447        0      424        0                           
+    .dex mmap     3284      160     3124        0                           
+    .oat mmap     1006        0      148        0                           
+    .art mmap      963      584        4        0                           
+   Other mmap       22        8        0        0                           
+      Unknown      105      104        0        0                           
+        TOTAL    11559     5596     3872        0    19851    17664     2186
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:     2536
+         Native Heap:     1900
+                Code:     4092
+               Stack:      260
+            Graphics:        0
+       Private Other:      680
+              System:     2091
+ 
+               TOTAL:    11559      TOTAL SWAP (KB):        0
+ 
+ Objects
+               Views:        0         ViewRootImpl:        0
+         AppContexts:        5           Activities:        0
+              Assets:        2        AssetManagers:        2
+       Local Binders:       23        Proxy Binders:       30
+       Parcel memory:        7         Parcel count:       28
+    Death Recipients:        2      OpenSSL Sockets:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:       62
+ 

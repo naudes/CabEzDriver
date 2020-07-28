@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/popup" >
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvPopupMsg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

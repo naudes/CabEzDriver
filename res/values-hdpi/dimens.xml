@@ -80,14 +80,13 @@
     <dimen name="dimen_top_minus">-55dp</dimen>
     <dimen name="dimen_bill_second_top">10dp</dimen>
     <dimen name="dimen_invoice_baseprice">15sp</dimen>
-    <dimen name="dimen_invoice_baseprice">15sp</dimen>
     <dimen name="invoice_base_price_small">10sp</dimen>
     <dimen name="invoice_price_font">20sp</dimen>
 
     <!-- Menu -->
 
-    <dimen name="menu_img_width">100dp</dimen>
-    <dimen name="menu_img_height">100dp</dimen>
+    <dimen name="menu_img_width">90dp</dimen>
+    <dimen name="menu_img_height">90dp</dimen>
 
     <!-- Grid View -->
     <dimen name="gridview_height">280dp</dimen>
@@ -112,5 +111,6 @@
     <!-- Newly Added for Cutstome ActionBar -->
     <dimen name="ab_text_size">13dp</dimen>
     <dimen name="map_margin_bottom">50dp</dimen>
+    <dimen name="font_size_popup_big">14sp</dimen>
 
 </resources>

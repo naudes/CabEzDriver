@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    compile fileTree(include: '*.jar', dir: 'libs')
+}
+
+android {
+    compileSdkVersion 28
+    repositories {
+        maven { url "http://dl.bintray.com/populov/maven" }
+        mavenCentral()
+        jcenter()
+        google()
+    }
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            debuggable true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
+
+
+    }
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+    productFlavors {
+    }
+}
+
+// Apply chrisbanes' excellent gradle-mvn-push recipe,
+// which lets us publish the build artifacts to maven
+// without *writing a single line of XML.*
+//apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'

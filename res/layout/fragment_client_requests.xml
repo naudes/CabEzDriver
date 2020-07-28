@@ -3,38 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_back_color" >
-
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <ImageSwitcher
+        android:id="@+id/imageSlider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+    </ImageSwitcher>
+   </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <!--
-    <RelativeLayout
-        android:id="@+id/rlClientReqTimeLeft"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible" >
 
-        <ProgressBar
-            android:id="@+id/pbClientReqTime"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:minHeight="20dp"
-            android:progress="10"
-            android:progressDrawable="@drawable/customprogress" />
-
-        <com.automated.taxinow.driver.widget.MyFontTextView
-            android:id="@+id/tvClentReqRemainTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
-        -->
 
         <include
             android:id="@+id/clientDetailView"
@@ -45,6 +30,7 @@
             android:id="@+id/relMap"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="visible"
             android:layout_weight="1" >
 
             <com.google.android.gms.maps.MapView
@@ -53,15 +39,51 @@
                 android:layout_height="match_parent" />
 
             <ImageButton
+                android:id="@+id/btnOverHere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/btn_overhere"/>
+
+            <ImageButton
                 android:id="@+id/btnMyLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/ub_textsize_huge"
                 android:layout_alignParentRight="true"
-                android:background="@null"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ub_button_mylocation" />
+                android:background="@drawable/ub_button_mylocation"/>
+
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearOffline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/ivAppName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:background="@null"
+                android:src="@drawable/app_name" />
+
+            <TextView
+                android:id="@+id/tvOffline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivAppName"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:text="@string/text_go_online_to"
+                android:textSize="@dimen/ub_textsize_big" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,7 +97,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
-                <com.automated.taxinow.driver.widget.MyFontButton
+                <com.overthere.express.widget.MyFontButton
                     android:id="@+id/btnClientAccept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -94,7 +116,7 @@
                     android:background="@null"
                     android:src="@drawable/divider" />
 
-                <com.automated.taxinow.driver.widget.MyFontButton
+                <com.overthere.express.widget.MyFontButton
                     android:id="@+id/btnClientReject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,7 +131,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.automated.taxinow.driver.widget.MyFontButton
+    <com.overthere.express.widget.MyFontButton
         android:id="@+id/btnClientReqRemainTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,5 +144,17 @@
         android:textColor="@color/color_blue"
         android:textSize="@dimen/dimen_waiting_time"
         android:visibility="gone" />
+
+    <com.overthere.express.widget.MyFontButton
+        android:id="@+id/btnOffline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="@string/text_go_offline"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

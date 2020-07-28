@@ -5,10 +5,10 @@
  * should not be modified by hand.
  */
 
-package com.automated.taxinow.driver;
+package com.overthere.express;
 
 public final class Manifest {
     public static final class permission {
-        public static final String C2D_MESSAGE="com.automated.taxinow.driver.permission.C2D_MESSAGE";
+        public static final String C2D_MESSAGE="com.overthere.express.permission.C2D_MESSAGE";
     }
 }

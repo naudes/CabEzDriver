@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/feedback_margin" >
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvFeedBackTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:background="@null"
             android:src="@drawable/line_divider" />
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvFeedbackAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,18 +38,18 @@
             android:drawablePadding="@dimen/feedback_padding"
             android:drawableTop="@drawable/payment"
             android:gravity="center"
-            android:text="Price"
+            android:text=""
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_app_gray" />
-
+        <!--android:drawableTop="@drawable/payment"-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/line_divider" />
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:id="@+id/tvFeedbackDistance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:background="@null"
             android:src="@drawable/line" />
 
-        <com.automated.taxinow.driver.widget.MyFontTextView
+        <com.overthere.express.widget.MyFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/feedback_margin_one"
@@ -91,7 +91,7 @@
             android:background="@null"
             android:src="@drawable/line" />
 
-        <com.automated.taxinow.driver.widget.MyFontEdittextView
+        <com.overthere.express.widget.MyFontEdittextView
             android:id="@+id/etFeedbackComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,20 +114,7 @@
         android:layout_height="match_parent"
         android:gravity="bottom" >
 
-        <!-- <com.automated.taxinow.driver.widget.MyFontButton -->
-        <!-- android:id="@+id/tvFeedbackSkip" -->
-        <!-- android:layout_width="0dp" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_marginRight="1dp" -->
-        <!-- android:layout_weight="1" -->
-        <!-- android:background="@drawable/btn_bottom" -->
-        <!-- android:gravity="center" -->
-        <!-- android:text="@string/text_skip" -->
-        <!-- android:textAppearance="?android:attr/textAppearanceMedium" -->
-        <!-- android:textColor="@color/white" /> -->
-
-
-        <com.automated.taxinow.driver.widget.MyFontButton
+        <com.overthere.express.widget.MyFontButton
             android:id="@+id/tvFeedbackSubmit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

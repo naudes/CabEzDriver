@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_bill_trans"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -18,7 +20,7 @@
             android:background="@drawable/bg_bill"
             android:gravity="center_horizontal" >
 
-            <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+            <com.overthere.express.widget.MyFontTextViewTitle
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,6 +31,74 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen_invoice_text" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.6"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dimen_bill_padding_one"
+                android:paddingRight="@dimen/dimen_bill_padding_two" >
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_bill_second_top"
+                    android:gravity="center"
+                    android:textSize="@dimen/dimen_invoice_baseprice"
+                    android:text=""
+                    android:textColor="@color/color_app_gray"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <com.overthere.express.widget.MyFontTextViewTitle
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
+                        android:gravity="clip_horizontal"
+                        android:text="$"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/dimen_bill_text" />
+
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/tvTotal1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="Fare"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/color_blue"
+                        android:textSize="@dimen/dimen_bill_text">
+
+                    </AutoCompleteTextView>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_margin_register"
+            android:background="@drawable/line" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -48,7 +118,7 @@
                     android:paddingLeft="@dimen/dimen_bill_padding_one"
                     android:paddingRight="@dimen/dimen_bill_padding_two" >
 
-                    <com.automated.taxinow.driver.widget.MyFontTextView
+                    <com.overthere.express.widget.MyFontTextView
                         android:id="@+id/tvBasePriceText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -56,21 +126,21 @@
                         android:layout_marginRight="@dimen/dimen_bill_margin_two"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="@string/text_base_price"
+                        android:text=""
                         android:textColor="@color/color_app_gray"
                         android:textSize="@dimen/dimen_invoice_baseprice"
                         android:textStyle="bold" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_bill_margin_three"
                         android:gravity="center"
-                        android:text="$"
+                        android:text=""
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/invoice_price_font" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:id="@+id/tvBasePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,7 +173,7 @@
                         android:gravity="center"
                         android:orientation="vertical" >
 
-                        <com.automated.taxinow.driver.widget.MyFontTextView
+                        <com.overthere.express.widget.MyFontTextView
                             android:id="@+id/tvDistCost"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -113,7 +183,7 @@
                             android:textSize="@dimen/dimen_invoice_baseprice"
                             android:textStyle="bold" />
 
-                        <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                        <com.overthere.express.widget.MyFontTextViewTitle
                             android:id="@+id/tvBillDistancePerMile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -123,7 +193,7 @@
                             android:textSize="@dimen/invoice_base_price_small" />
                     </LinearLayout>
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_bill_margin_three"
@@ -132,7 +202,7 @@
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/invoice_price_font" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:id="@+id/tvDis1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -165,7 +235,7 @@
                         android:gravity="center"
                         android:orientation="vertical" >
 
-                        <com.automated.taxinow.driver.widget.MyFontTextView
+                        <com.overthere.express.widget.MyFontTextView
                             android:id="@+id/tvTimeCost"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -175,7 +245,7 @@
                             android:textSize="@dimen/dimen_invoice_baseprice"
                             android:textStyle="bold" />
 
-                        <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                        <com.overthere.express.widget.MyFontTextViewTitle
                             android:id="@+id/tvBillTimePerHour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -185,7 +255,7 @@
                             android:textSize="@dimen/invoice_base_price_small" />
                     </LinearLayout>
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_bill_margin_three"
@@ -194,7 +264,7 @@
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/invoice_price_font" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:id="@+id/tvTime1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -219,7 +289,7 @@
                     android:paddingLeft="@dimen/dimen_bill_padding_one"
                     android:paddingRight="@dimen/dimen_bill_padding_two" >
 
-                    <com.automated.taxinow.driver.widget.MyFontTextView
+                    <com.overthere.express.widget.MyFontTextView
                         android:id="@+id/tvReferralBonusText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -232,7 +302,7 @@
                         android:textSize="@dimen/dimen_invoice_baseprice"
                         android:textStyle="bold" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_bill_margin_three"
@@ -241,7 +311,7 @@
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/invoice_price_font" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:id="@+id/tvReferralBonus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -266,7 +336,7 @@
                     android:paddingLeft="@dimen/dimen_bill_padding_one"
                     android:paddingRight="@dimen/dimen_bill_padding_two" >
 
-                    <com.automated.taxinow.driver.widget.MyFontTextView
+                    <com.overthere.express.widget.MyFontTextView
                         android:id="@+id/tvPromoBonusText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -279,7 +349,7 @@
                         android:textSize="@dimen/dimen_invoice_baseprice"
                         android:textStyle="bold" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_bill_margin_three"
@@ -288,7 +358,7 @@
                         android:textColor="@color/color_blue"
                         android:textSize="@dimen/invoice_price_font" />
 
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
+                    <com.overthere.express.widget.MyFontTextViewTitle
                         android:id="@+id/tvPromoBonus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -307,58 +377,7 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.6"
-            android:gravity="center"
-            android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/dimen_bill_padding_one"
-                android:paddingRight="@dimen/dimen_bill_padding_two" >
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_bill_second_top"
-                    android:gravity="center"
-                    android:text="@string/text_total"
-                    android:textColor="@color/color_app_gray"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_bill_margin_three"
-                        android:gravity="center"
-                        android:text="$"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/dimen_bill_text" />
-
-                    <com.automated.taxinow.driver.widget.MyFontTextViewTitle
-                        android:id="@+id/tvTotal1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="60.00"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/dimen_bill_text" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -367,7 +386,7 @@
         android:layout_gravity="bottom|end"
         android:gravity="bottom" >
 
-        <com.automated.taxinow.driver.widget.MyFontButton
+        <com.overthere.express.widget.MyFontButton
             android:id="@+id/btnBillDialogClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
